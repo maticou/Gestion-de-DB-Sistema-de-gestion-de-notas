@@ -10,34 +10,43 @@ DECLARE
 	nota integer default 0;
 	porcentaje integer default 0;
 	promedio_nuevo integer default 0;
+	_id_curso integer default 0;
 BEGIN
-	SELECT nota_final
+	SELECT ref_instancia_curso
 	FROM matricula
 	WHERE matricula.ref_alumno = OLD.ref_alumno
 	AND matricula.ref_instancia_curso = OLD.ref_instancia_curso 
-	INTO promedio_actual;
+	INTO _id_curso;
 
-	SELECT evaluacion.nota
-	FROM evaluacion
-	WHERE evaluacion.codigo = OLD.codigo INTO nota;
+	IF ((SELECT cursor_verificar_porcentaje(_id_curso)) = 1) THEN
+		SELECT nota_final
+		FROM matricula
+		WHERE matricula.ref_alumno = OLD.ref_alumno
+		AND matricula.ref_instancia_curso = OLD.ref_instancia_curso 
+		INTO promedio_actual;
 
-	SELECT evaluacion.porcentaje
-	FROM evaluacion
-	WHERE evaluacion.codigo = OLD.codigo INTO porcentaje;
+		SELECT evaluacion.nota
+		FROM evaluacion
+		WHERE evaluacion.codigo = OLD.codigo INTO nota;
 
-	IF(promedio_actual = null) THEN
-		promedio_actual:= 0;
-	ELSE
+		SELECT evaluacion.porcentaje
+		FROM evaluacion
+		WHERE evaluacion.codigo = OLD.codigo INTO porcentaje;
+
+		IF(promedio_actual = null) THEN
+			promedio_actual:= 0;
+		ELSE
+		END IF;
+
+		promedio_nuevo := ((nota * porcentaje) / 100) + promedio_actual;
+		
+	    UPDATE matricula 
+		SET nota_final = promedio_nuevo 
+	    WHERE ref_alumno = OLD.ref_alumno
+	    AND ref_instancia_curso = OLD.ref_instancia_curso;
+	     
+	    RAISE NOTICE 'Se actualizo una nota del alumno';
 	END IF;
-
-	promedio_nuevo := ((nota * porcentaje) / 100) + promedio_actual;
-	
-    UPDATE matricula 
-	SET nota_final = promedio_nuevo 
-    WHERE ref_alumno = OLD.ref_alumno
-    AND ref_instancia_curso = OLD.ref_instancia_curso;
-     
-    RAISE NOTICE 'Se actualizo una nota del alumno';
     RETURN OLD;
 END ;
 $$ LANGUAGE plpgsql;

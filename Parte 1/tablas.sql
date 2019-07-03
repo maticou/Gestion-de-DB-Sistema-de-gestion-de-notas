@@ -42,6 +42,7 @@ CREATE TABLE instancia_curso
 	semestre tipo_semestre NOT NULL,
 	ref_profesor varchar(12) REFERENCES profesor(rut),
 	ref_curso integer NOT NULL REFERENCES curso(codigo),
+	porcentaje_restante integer NOT NULL DEFAULT 100,
 	PRIMARY KEY (id)	
 );
 

@@ -81,5 +81,7 @@ CREATE TABLE log
 	stamp timestamp NOT NULL,
 	user_id text NOT NULL,
 	nombre_tabla varchar(50) NOT NULL,
+	datos_nuevos text NULL,
+	datos_viejos text NULL,
 	PRIMARY KEY (id_log)
 );

@@ -2,14 +2,14 @@ CREATE OR REPLACE FUNCTION proceso_agregar_log()
 RETURNS TRIGGER AS $log$
 BEGIN 
 	IF (TG_OP = 'DELETE') THEN
-		INSERT INTO log(operacion, stamp, user_id, nombre_tabla) 
-		VALUES ('DELETE', now(), user, TG_TABLE_NAME);
+		INSERT INTO log(operacion, stamp, user_id, nombre_tabla, datos_nuevos, datos_viejos) 
+		VALUES ('DELETE', now(), user, TG_TABLE_NAME, NULL, ROW(OLD.*) );
 	ELSEIF (TG_OP = 'UPDATE') THEN
-		INSERT INTO log(operacion, stamp, user_id, nombre_tabla) 
-		VALUES ('UPDATE', now(), user, TG_TABLE_NAME);
+		INSERT INTO log(operacion, stamp, user_id, nombre_tabla, datos_nuevos, datos_viejos) 
+		VALUES ('UPDATE', now(), user, TG_TABLE_NAME, ROW(NEW.*), ROW(OLD.*));
 	ELSEIF (TG_OP = 'INSERT') THEN
-		INSERT INTO log(operacion, stamp, user_id, nombre_tabla) 
-		VALUES ('INSERT', now(), user, TG_TABLE_NAME);
+		INSERT INTO log(operacion, stamp, user_id, nombre_tabla, datos_nuevos, datos_viejos) 
+		VALUES ('INSERT', now(), user, TG_TABLE_NAME, ROW(NEW.*), NULL);
 	END IF;
 	RETURN NULL;
 END;

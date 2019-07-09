@@ -65,7 +65,7 @@ CREATE OR REPLACE PROCEDURE modificar_instancia(
 	IN _ref_profesor VARCHAR(12),
 	IN _ref_curso integer,
 	IN _anio integer,
-	IN _semestre semestre
+	IN _semestre tipo_semestre
 ) AS $$
 BEGIN
     UPDATE instancia_curso

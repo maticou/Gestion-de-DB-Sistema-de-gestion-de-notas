@@ -77,9 +77,14 @@ CREATE OR REPLACE PROCEDURE agregar_instancia(
 ) AS $$
 BEGIN
 	IF (SELECT verificar_existe_profesor_encargado(_ref_curso) = 1) THEN
-		INSERT INTO instancia_curso(periodo, seccion, ref_profesor, ref_curso, anio, semestre) 
-    	VALUES (_periodo, _seccion, _ref_profesor, _ref_curso, _anio, _semestre);
-		RAISE NOTICE 'Instancia curso creada exitosamente';
+		IF ((SELECT COUNT(id) FROM instancia_curso WHERE periodo=_periodo AND seccion=_seccion AND ref_curso=_ref_curso AND anio=_anio AND semestre=_semestre) = 0) THEN
+			INSERT INTO instancia_curso(periodo, seccion, ref_profesor, ref_curso, anio, semestre) 
+	    	VALUES (_periodo, _seccion, _ref_profesor, _ref_curso, _anio, _semestre);
+			RAISE NOTICE 'Instancia curso creada exitosamente';
+		ELSE
+			RAISE NOTICE 'No se pudo crear la instancia del curso porque ya existe';
+		END IF;
+		
 	ELSE
 		RAISE NOTICE 'No se pudo crear la instancia del curso porque el curso base no tiene profesor encargado';
 	END IF;    

@@ -40,7 +40,7 @@ BEGIN
 				RAISE NOTICE 'Alumno reprueba por nota inferior a 40 en evaluación exigible';
 				RETURN 1;
 			ELSE
-
+				RETURN 2;
 			END IF;
 		ELSE
 			RAISE NOTICE 'No puede calcular la nota final porque al curso le faltan evaluaciones. Recuerde que el curso tiene % %% restante', valor.porcentaje_restante;

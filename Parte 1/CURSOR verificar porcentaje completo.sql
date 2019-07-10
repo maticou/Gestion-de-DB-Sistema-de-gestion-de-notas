@@ -21,7 +21,8 @@ LANGUAGE 'plpgsql';
 
 
 CREATE OR REPLACE FUNCTION cursor_verificar_situacion(
-	IN _id_instancia integer)
+	IN _ref_alumno integer,
+	IN _ref_instancia_curso integer)
 RETURNS integer AS $$
 DECLARE
 	cursor_promedio CURSOR FOR SELECT nota, exigible

@@ -22,12 +22,11 @@ BEGIN
 
 		SELECT instancia_evaluacion.nota
 		FROM instancia_evaluacion, evaluacion
-		WHERE evaluacion.codigo = OLD.codigo INTO nota
-		AND instancia_evaluacion.ref_evaluacion=evaluacion.codigo;
+		WHERE instancia_evaluacion.ref_evaluacion=evaluacion.codigo INTO nota;
 
 		SELECT evaluacion.porcentaje
-		FROM evaluacion
-		WHERE evaluacion.codigo = OLD.codigo INTO porcentaje;
+		FROM instancia_evaluacion, evaluacion
+		WHERE instancia_evaluacion.ref_evaluacion=evaluacion.codigo INTO porcentaje;
 
 		IF(promedio_actual = null) THEN
 			promedio_actual:= 0;

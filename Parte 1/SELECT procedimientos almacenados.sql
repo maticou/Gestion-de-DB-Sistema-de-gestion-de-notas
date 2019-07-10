@@ -19,8 +19,8 @@ BEGIN
 	curso.nombre AS curso,
 	instancia_curso.seccion AS seccion,
 	evaluacion.tipo AS tipo_evaluacion,
-	evaluacion.nota AS nota
-	FROM alumno, curso, instancia_curso, evaluacion
+	instancia_evaluacion.nota AS nota
+	FROM alumno, curso, instancia_curso, evaluacion, instancia_evaluacion
 	WHERE alumno.matricula_id=2013407015
 	AND alumno.matricula_id=evaluacion.ref_alumno
 	AND evaluacion.ref_instancia_curso=instancia_curso.id
@@ -50,8 +50,8 @@ BEGIN
 	curso.nombre AS curso,
 	instancia_curso.seccion AS seccion,
 	evaluacion.tipo AS tipo_evaluacion,
-	evaluacion.nota AS nota
-	FROM alumno, curso, instancia_curso, evaluacion
+	instancia_evaluacion.nota AS nota
+	FROM alumno, curso, instancia_curso, evaluacion, instancia_evaluacion
 	WHERE alumno.matricula_id=2013407015
 	AND curso.nombre=_nombre_curso
 	AND alumno.matricula_id=evaluacion.ref_alumno

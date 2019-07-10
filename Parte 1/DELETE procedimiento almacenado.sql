@@ -34,22 +34,3 @@ BEGIN
 	END IF;
 END;
 $$ LANGUAGE plpgsql;
-
-
-CREATE OR REPLACE PROCEDURE eliminar_evaluacion(
-	_id_evaluacion INTEGER
-) AS $$
-DECLARE
-	nota integer default 0;
-BEGIN
-	SELECT COUNT(evaluacion.nota)
-	FROM evaluacion
-	WHERE evaluacion.codigo = _id_evaluacion INTO nota;
-
-	IF(nota = 0) THEN
-		DELETE FROM evaluacion WHERE evaluacion.codigo = _id_evaluacion;
-	ELSE
-		RAISE NOTICE 'No se puede eliminar la evaluacion';
-	END IF;	
-END;
-$$ LANGUAGE plpgsql;

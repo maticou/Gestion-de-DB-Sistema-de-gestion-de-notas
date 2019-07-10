@@ -24,7 +24,7 @@ BEGIN
 					SELECT matricula_id AS matricula_alumno, 
 					alumno.nombre AS alumno, curso.nombre AS curso, 
 					seccion, nota AS evaluacion, porcentaje
-					FROM alumno, instancia_curso, evaluacion, curso
+					FROM alumno, instancia_curso, evaluacion, curso, instancia_evaluacion
 					WHERE alumno.matricula_id=id_alumno
 					AND curso.nombre=nombre_curso			
 					AND instancia_curso.periodo=periodo_curso			

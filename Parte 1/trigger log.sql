@@ -32,6 +32,10 @@ CREATE TRIGGER agregar_log_evaluacion
 AFTER INSERT OR UPDATE OR DELETE ON evaluacion
 FOR EACH ROW EXECUTE FUNCTION proceso_agregar_log()
 
+CREATE TRIGGER agregar_log_instancia_evaluacion
+AFTER INSERT OR UPDATE OR DELETE ON instancia_evaluacion
+FOR EACH ROW EXECUTE FUNCTION proceso_agregar_log()
+
 CREATE TRIGGER agregar_log_instancia_curso
 AFTER INSERT OR UPDATE OR DELETE ON instancia_curso
 FOR EACH ROW EXECUTE FUNCTION proceso_agregar_log()

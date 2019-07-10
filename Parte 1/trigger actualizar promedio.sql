@@ -1,8 +1,3 @@
-CREATE TRIGGER modificacion_nota
-AFTER UPDATE of nota
-ON evaluacion
-FOR EACH ROW EXECUTE FUNCTION actualizar_promedio();
-
 CREATE OR REPLACE FUNCTION actualizar_promedio() 
 RETURNS trigger AS $$
 DECLARE
@@ -25,9 +20,10 @@ BEGIN
 		AND matricula.ref_instancia_curso = OLD.ref_instancia_curso 
 		INTO promedio_actual;
 
-		SELECT evaluacion.nota
-		FROM evaluacion
-		WHERE evaluacion.codigo = OLD.codigo INTO nota;
+		SELECT instancia_evaluacion.nota
+		FROM instancia_evaluacion, evaluacion
+		WHERE evaluacion.codigo = OLD.codigo INTO nota
+		AND instancia_evaluacion.ref_evaluacion=evaluacion.codigo;
 
 		SELECT evaluacion.porcentaje
 		FROM evaluacion
@@ -50,3 +46,8 @@ BEGIN
     RETURN OLD;
 END ;
 $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER modificacion_nota
+AFTER UPDATE of nota
+ON instancia_evaluacion
+FOR EACH ROW EXECUTE FUNCTION actualizar_promedio();

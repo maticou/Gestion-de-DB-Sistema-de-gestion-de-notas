@@ -1,0 +1,75 @@
+<div class="list-container" fxLayout="column" fxLayoutGap="10px">
+    <div fxLayout="row" fxFlex="50" align-items>
+      <div fxFlex="70">
+          <button mat-raised-button (click)="agregarEvaluacion()"> 
+            <mat-icon>add</mat-icon> Agregar Evaluacion
+          </button>
+      </div>
+    </div>
+  
+    <div fxFlex="50">
+  
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"> 
+        <ng-container matColumnDef="codigo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
+            <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+            <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="porcentaje">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Porcentaje </th>
+            <td mat-cell *matCellDef="let element"> {{element.porcentaje}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="exigible">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Exigible </th>
+            <td mat-cell *matCellDef="let element"> {{element.exigible}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="area">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Área </th>
+            <td mat-cell *matCellDef="let element"> {{element.area}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+            <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="prorroga">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Prorroga </th>
+            <td mat-cell *matCellDef="let element"> {{element.prorroga}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ref_profesor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Profesor Encargado </th>
+            <td mat-cell *matCellDef="let element"> {{element.ref_profesor}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ref_instancia_curso">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Curso </th>
+            <td mat-cell *matCellDef="let element"> {{element.ref_instancia_curso}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="detalles">
+          <th mat-header-cell *matHeaderCellDef> Editar </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="modificarEvaluacion(element.codigo)">
+                <mat-icon class="mat-18">edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+      </table>
+  
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" class="mat-elevation-z8">
+      </mat-paginator>
+  
+    </div>
+  </div>

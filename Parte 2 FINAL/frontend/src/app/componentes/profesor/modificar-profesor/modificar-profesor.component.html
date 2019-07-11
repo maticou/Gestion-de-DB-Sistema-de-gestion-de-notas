@@ -1,0 +1,48 @@
+<div>
+        <h2 mat-dialog-title>Modificar Profesor</h2>
+        <hr />
+        <mat-dialog-content>
+          <form [formGroup]="form">
+
+            <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Rut</mat-label>
+                <input matInput placeholder="11111111-1" formControlName="rut"  maxlength="10"/>
+              </mat-form-field>
+            </div>
+
+            <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="" formControlName="nombre" maxlength="30"/>
+              </mat-form-field>
+            </div>
+
+            <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Apellido</mat-label>
+                <input matInput placeholder="" formControlName="apellido" maxlength="30" />
+              </mat-form-field>
+            </div>
+
+            <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Teléfono</mat-label>
+                <input matInput placeholder="" formControlName="telefono" maxlength="9" />
+              </mat-form-field>
+            </div>
+      
+            <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Correo electrónico</mat-label>
+                <input matInput placeholder="ejemplo@utalca.cl" formControlName="correo" maxlength="100"/>
+              </mat-form-field>
+            </div>
+          </form>
+        </mat-dialog-content>
+        <hr />
+        <mat-dialog-actions>
+          <button mat-raised-button (click)="onCloseConfirm()" [disabled]="form.invalid">Aceptar</button>
+          <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+        </mat-dialog-actions>
+      </div>

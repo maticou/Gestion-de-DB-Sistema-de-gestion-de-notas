@@ -1,0 +1,40 @@
+<div>
+    <h2 mat-dialog-title>Agregar Sección</h2>
+    <hr />
+    <mat-dialog-content>
+      <form [formGroup]="form">
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Sección</mat-label>
+                <input matInput placeholder="" formControlName="seccion" maxlength="1"/>
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Año</mat-label>
+                <input matInput placeholder="" formControlName="anio" maxlength="4" />
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Semestre</mat-label>
+                <input matInput placeholder="" formControlName="semestre" maxlength="1" />
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Profesor Encargado</mat-label>
+                <input matInput placeholder="" formControlName="ref_profesor" maxlength="13" />
+            </mat-form-field>
+        </div>
+      </form>
+    </mat-dialog-content>
+    <hr />
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="onCloseConfirm()" [disabled]="form.invalid">Agregar</button>
+      <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+    </mat-dialog-actions>
+  </div>

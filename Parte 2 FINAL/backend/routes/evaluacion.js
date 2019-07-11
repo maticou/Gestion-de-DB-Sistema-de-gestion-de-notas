@@ -6,7 +6,7 @@ const Evaluacion = require('../modelos/evaluacion')
 app.put('/evaluacion/agregar', (req, res) =>{
 	let body = req.body;
 	let nueva_evaluacion = new Evaluacion(0, body.fecha, body.porcentaje, body.exigible, 
-		body.area, body.tipo, body.prorroga, body.ref_profesor, body.ref_alumno, body.ref_instancia_curso);
+		body.area, body.tipo, body.prorroga, body.ref_profesor, body.ref_instancia_curso);
 
 	Evaluacion.agregar_evaluacion(nueva_evaluacion, (err, result) =>{
 		if(err){
@@ -36,7 +36,7 @@ app.post('/evaluacion/eliminar/:codigo', (req, res) =>{
 app.post('/evaluacion/modificar', (req, res) => {
 	let body = req.body;
 	let evaluacion = new Evaluacion(body.codigo, body.fecha, body.porcentaje, body.exigible, 
-		body.area, body.tipo, body.prorroga, body.ref_profesor, body.ref_alumno, body.ref_instancia_curso);
+		body.area, body.tipo, body.prorroga, body.ref_profesor, body.ref_instancia_curso);
 
 	Evaluacion.modificar_evaluacion(evaluacion, (err, results) => {
 		if(err){
@@ -56,6 +56,18 @@ app.get('/evaluacion/obtener', (req, res) => {
 		}
 
 		return res.json(evaluaciones);
+	});
+});
+
+app.get('/evaluacion/obtener/:codigo', (req, res) => {
+	let codigo = req.params.codigo;
+
+	Evaluacion.obtener_datos_evaluacion(codigo, (err, evaluacion) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json(evaluacion);
 	});
 });
 

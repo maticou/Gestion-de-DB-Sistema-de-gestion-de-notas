@@ -105,8 +105,8 @@ CREATE OR REPLACE PROCEDURE modificar_evaluacion(
 	IN _fecha date,
 	IN _porcentaje integer,
 	IN _exigible integer,
-	IN _area VARCHAR(20),
-	IN _tipo VARCHAR(20),
+	IN _area area_evaluacion,
+	IN _tipo tipo_evaluacion,
 	IN _prorroga VARCHAR(255),	
 	IN _ref_profesor VARCHAR(12),	
 	IN _ref_instancia_curso integer

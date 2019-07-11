@@ -90,7 +90,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION mostrar_numero_cursos_dictados_por_profesor(
+CREATE OR REPLACE FUNCTION reporte_numero_cursos_dictados_por_profesor(
 	) RETURNS TABLE (
 	   rut varchar(12),
 	   nombre_profesor varchar(50),
@@ -111,7 +111,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION mostrar_profesores_con_numero_de_reprobados(
+CREATE OR REPLACE FUNCTION reporte_profesores_con_numero_de_reprobados(
 	) RETURNS TABLE (
 	   rut varchar(12),
 	   nombre_profesor varchar(50),
@@ -129,6 +129,51 @@ BEGIN
 	AND instancia_curso.id=matricula.ref_instancia_curso
 	AND matricula.situacion='REPROBADO'
 	GROUP BY (profesor.rut)
+	ORDER BY cantidad_alumnos_reprobados DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION reporte_profesores_con_numero_de_aprobados(
+	) RETURNS TABLE (
+	   rut varchar(12),
+	   nombre_profesor varchar(50),
+	   apellido varchar(50),
+	   cantidad_alumnos_reprobados bigint
+	   ) AS $$
+BEGIN
+	RETURN QUERY 
+	SELECT profesor.rut AS rut,
+	profesor.nombre AS nombre_profesor,
+	profesor.apellido AS apellido,
+	COUNT(matricula.codigo_matricula) AS cantidad_alumnos_reprobados
+	FROM profesor, instancia_curso, matricula
+	WHERE profesor.rut=instancia_curso.ref_profesor	
+	AND instancia_curso.id=matricula.ref_instancia_curso
+	AND matricula.situacion='APROBADO'
+	GROUP BY (profesor.rut)
+	ORDER BY cantidad_alumnos_reprobados DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+--FALTA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+CREATE OR REPLACE FUNCTION reporte_cursos_con_porcentaje_de_reprobados(
+	) RETURNS TABLE (
+	   rut varchar(12),
+	   nombre_profesor varchar(50),
+	   apellido varchar(50),
+	   cantidad_alumnos_reprobados bigint
+	   ) AS $$
+BEGIN
+	RETURN QUERY 
+	SELECT curso.codigo AS codigo_curso,
+	curso.nombre AS nombre_curso,
+	COUNT(matricula.codigo_matricula) AS cantidad_alumnos_reprobados
+	FROM instancia_curso, matricula, curso
+	WHERE instancia_curso.ref_curso=curso.codigo	
+	AND instancia_curso.id=matricula.ref_instancia_curso
+	AND matricula.situacion='REPROBADO'
+	GROUP BY (curso.codigo)
 	ORDER BY cantidad_alumnos_reprobados DESC;
 END;
 $$ LANGUAGE plpgsql;

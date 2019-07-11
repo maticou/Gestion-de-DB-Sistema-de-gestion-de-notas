@@ -43,8 +43,14 @@ $$ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION refresh_vista_cursos_inscritos_por_alumno(
-	) RETURNS void AS $$
+	) RETURNS TRIGGER AS $$
 BEGIN   
     REFRESH MATERIALIZED VIEW cursos_de_alumno;
+    RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER actualizar_vista_cursos_inscritos_por_alumno
+AFTER INSERT OR UPDATE OR DELETE ON matricula
+FOR EACH ROW EXECUTE FUNCTION refresh_vista_cursos_inscritos_por_alumno()

@@ -52,14 +52,24 @@ BEGIN
 	FETCH cursor_porcentaje_a INTO valor;
 	OPEN cursor_alumnos;	
 	FETCH cursor_alumnos INTO reg;
-	IF (OLD.porcentaje < NEW.porcentaje) THEN		
-		UPDATE instancia_curso 
-		SET porcentaje_restante=(porcentaje_restante-NEW.porcentaje) 
-		WHERE instancia_curso.id = reg.ref_instancia_curso;		
+	IF (OLD.porcentaje < NEW.porcentaje) THEN	
+		IF ((valor.porcentaje_restante-NEW.porcentaje) < 0) THEN
+			RAISE NOTICE 'No se puede modificar evaluación con tan alto porcentaje';
+		ELSE
+			UPDATE instancia_curso 
+			SET porcentaje_restante=(valor.porcentaje_restante-NEW.porcentaje) 
+			WHERE instancia_curso.id = NEW.ref_instancia_curso;	
+			RAISE NOTICE 'Evaluación modificada correctamente';			
+		END IF;			
 	ELSE
-		UPDATE instancia_curso 
-		SET porcentaje_restante=(porcentaje_restante+(OLD.porcentaje-NEW.porcentaje))
-		WHERE instancia_curso.id = reg.ref_instancia_curso;	
+		IF ((valor.porcentaje_restante+(OLD.porcentaje-NEW.porcentaje)) < 101) THEN
+			UPDATE instancia_curso 
+			SET porcentaje_restante=(valor.porcentaje_restante+(OLD.porcentaje-NEW.porcentaje))
+			WHERE instancia_curso.id = NEW.ref_instancia_curso;	
+			RAISE NOTICE 'Evaluación modificada correctamente';
+		ELSE
+			RAISE NOTICE 'No se puede modificar evaluación con tan alto porcentaje';
+		END IF;
 	END IF;
 	RETURN NEW;
 END;$$

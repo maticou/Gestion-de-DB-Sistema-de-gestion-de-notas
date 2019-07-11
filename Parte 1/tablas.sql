@@ -58,20 +58,31 @@ CREATE TABLE matricula
 	PRIMARY KEY (codigo_matricula)
 );
 
+CREATE TYPE tipo_evaluacion AS ENUM ('PRUEBA', 'PROYECTO', 'LABORATORIO', 'TAREA', 'TRABAJOS', 'INFORME');
+CREATE TYPE area_evaluacion AS ENUM ('UNIDAD_1', 'UNIDAD_2', 'UNIDAD_3', 'UNIDAD_4', 'UNIDAD_5');
+
 CREATE TABLE evaluacion
 (
 	codigo bigint NOT NULL GENERATED ALWAYS AS IDENTITY,
 	fecha date NULL,
 	porcentaje integer NOT NULL,
 	exigible integer NOT NULL,
-	area varchar(20) NOT NULL,
-	tipo varchar(20) NOT NULL,
-	prorroga varchar(255) NULL,
-	nota integer NULL,
-	ref_profesor varchar(12) NOT NULL REFERENCES profesor(rut),
-	ref_alumno integer NOT NULL REFERENCES alumno(matricula_id),
+	area area_evaluacion NOT NULL DEFAULT 'UNIDAD_1',
+	tipo tipo_evaluacion NOT NULL DEFAULT 'PRUEBA',
+	prorroga varchar(255) NULL,	
+	ref_profesor varchar(12) NOT NULL REFERENCES profesor(rut),	
 	ref_instancia_curso integer NOT NULL REFERENCES instancia_curso(id),
 	PRIMARY KEY (codigo)
+);
+
+CREATE TABLE instancia_evaluacion
+(
+	codigo_intancia_evaluacion bigint NOT NULL GENERATED ALWAYS AS IDENTITY,
+	ref_alumno integer NOT NULL REFERENCES alumno(matricula_id),
+	ref_evaluacion bigint NOT NULL REFERENCES evaluacion(codigo),
+	nota integer NULL DEFAULT 0,
+	ref_instancia_curso integer NOT NULL REFERENCES instancia_curso(id),
+	PRIMARY KEY (codigo_intancia_evaluacion)
 );
 
 CREATE TABLE log
@@ -81,5 +92,7 @@ CREATE TABLE log
 	stamp timestamp NOT NULL,
 	user_id text NOT NULL,
 	nombre_tabla varchar(50) NOT NULL,
+	datos_nuevos text NULL,
+	datos_viejos text NULL,
 	PRIMARY KEY (id_log)
 );

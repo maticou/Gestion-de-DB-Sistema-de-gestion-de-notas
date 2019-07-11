@@ -65,7 +65,7 @@ CREATE OR REPLACE PROCEDURE modificar_instancia(
 	IN _ref_profesor VARCHAR(12),
 	IN _ref_curso integer,
 	IN _anio integer,
-	IN _semestre semestre
+	IN _semestre tipo_semestre
 ) AS $$
 BEGIN
     UPDATE instancia_curso
@@ -97,7 +97,7 @@ $$ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE PROCEDURE modificar_evaluacion(
-	IN _codigo integer,
+	IN _codigo bigint,
 	IN _fecha date,
 	IN _porcentaje integer,
 	IN _exigible integer,
@@ -137,11 +137,11 @@ CREATE OR REPLACE PROCEDURE modificar_nota(
 ) AS $$
 BEGIN
 	IF (_nota>9 AND _nota<71) THEN
-		UPDATE evaluacion
+		UPDATE instancia_evaluacion
 		SET nota = _nota
-		WHERE evaluacion.ref_alumno = _ref_alumno
-		AND evaluacion.ref_instancia_curso = _ref_instancia_curso
-		AND evaluacion.codigo = _ref_evaluacion;
+		WHERE instancia_evaluacion.ref_alumno = _ref_alumno
+		AND instancia_evaluacion.ref_instancia_curso = _ref_instancia_curso
+		AND instancia_evaluacion.ref_evaluacion = _ref_evaluacion;
 		RAISE NOTICE 'Se modificó la nota correctamente a %', _nota;
 	ELSE
 		RAISE NOTICE 'No se pudo modificar la nota porque no está dentro del rango permitido [10,70]';

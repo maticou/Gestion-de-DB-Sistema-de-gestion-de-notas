@@ -99,3 +99,98 @@ BEGIN
 	AND instancia_curso.ref_profesor=profesor.rut;
 END;
 $$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION lista_evaluaciones_por_instancia_curso(
+	IN _id integer
+	) RETURNS TABLE (
+	    codigo bigint,
+		fecha date,
+		porcentaje integer,
+		exigible integer,
+		area area_evaluacion,
+		tipo tipo_evaluacion,
+		prorroga varchar(255),	
+		ref_profesor varchar(12),	
+		ref_instancia_curso integer
+	   ) AS $$
+BEGIN
+	RETURN QUERY 
+	SELECT evaluacion.codigo AS codigo,
+		evaluacion.fecha AS fecha,
+		evaluacion.porcentaje AS porcentaje,
+		evaluacion.exigible AS exigible,
+		evaluacion.area AS area,
+		evaluacion.tipo AS tipo,
+		evaluacion.prorroga AS prorroga,	
+		evaluacion.ref_profesor AS ref_profesor,	
+		evaluacion.ref_instancia_curso AS ref_instancia_curso
+	FROM evaluacion, instancia_curso
+	WHERE evaluacion.ref_instancia_curso=instancia_curso.id
+	AND evaluacion.ref_instancia_curso=_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION lista_evaluaciones_por_instancia_curso_por_alumno(
+	IN _id integer,
+	IN _matricula_id integer
+	) RETURNS TABLE (
+	    codigo bigint,
+		fecha date,
+		porcentaje integer,
+		exigible integer,
+		area area_evaluacion,
+		tipo tipo_evaluacion,
+		prorroga varchar(255),	
+		ref_profesor varchar(12),	
+		ref_instancia_curso integer
+	   ) AS $$
+BEGIN
+	RETURN QUERY 
+	SELECT evaluacion.codigo AS codigo,
+		evaluacion.fecha AS fecha,
+		evaluacion.porcentaje AS porcentaje,
+		evaluacion.exigible AS exigible,
+		evaluacion.area AS area,
+		evaluacion.tipo AS tipo,
+		evaluacion.prorroga AS prorroga,	
+		evaluacion.ref_profesor AS ref_profesor,	
+		evaluacion.ref_instancia_curso AS ref_instancia_curso
+	FROM evaluacion, instancia_curso, matricula
+	WHERE evaluacion.ref_instancia_curso=instancia_curso.id
+	AND evaluacion.ref_instancia_curso=_id
+	AND matricula.ref_instancia_curso=_id
+	AND matricula.ref_alumno=_matricula_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION lista_alumnos_en_instancia_curso(
+	IN _id integer
+	) RETURNS TABLE (
+ 	   matricula integer,
+	   rut varchar(12),
+	   nombre_alumno varchar(50),
+	   apellido_paterno varchar(50),
+	   apellido_materno varchar(50),
+	   correo_alumno varchar(50),
+	   telefono_alumno varchar(15),
+	   estado_alumno integer
+	   ) AS $$
+BEGIN
+	RETURN QUERY 
+	SELECT alumno.matricula_id AS matricula,
+	alumno.rut AS rut,
+	alumno.nombre AS nombre_alumno,
+	alumno.apellido_paterno AS apellido_paterno,
+	alumno.apellido_materno AS apellido_materno,
+	alumno.correo AS correo_alumno,
+	alumno.telefono AS telefono_alumno,
+	alumno.estado AS estado_alumno
+	FROM alumno, matricula, instancia_curso
+	WHERE alumno.matricula_id=matricula.ref_alumno
+	AND matricula.ref_instancia_curso=instancia_curso.id
+	AND instancia_curso.id=_id;
+END;
+$$ LANGUAGE plpgsql;

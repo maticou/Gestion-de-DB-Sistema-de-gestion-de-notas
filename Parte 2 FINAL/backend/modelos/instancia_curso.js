@@ -66,6 +66,24 @@ class Instancia_curso{
         })
     }
 
+    static obtener_instancia(id, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        db.any('SELECT * FROM instancia_curso WHERE id = $1', id).then(function(results){
+            let instancias = [];
+            for(const instancia of results){
+                instancias.push(new Instancia_curso(instancia.id, instancia.periodo, instancia.seccion, instancia.ref_profesor,
+                    instancia.ref_curso, instancia.anio, instancia.semestre));
+            }
+
+            return callback(null, instancias[0]);
+        })
+        .catch(function(err){
+            return callback(err);
+        })
+    }
+
 	static eliminar_instancia(id, callback){
 		if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
@@ -82,12 +100,14 @@ class Instancia_curso{
 		if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        db.none('CALL modificar_instancia($1, $2, $3, $4, $5)',
+        db.none('CALL modificar_instancia($1, $2, $3, $4, $5, $6, $7)',
         	[instancia.id,
         	instancia.periodo,
         	instancia.seccion,
         	instancia.ref_profesor,
-        	instancia.ref_curso])
+        	instancia.ref_curso,
+            instancia.anio,
+            instancia.semestre])
         .then(function(results){
     		return callback(null, true);
     	})

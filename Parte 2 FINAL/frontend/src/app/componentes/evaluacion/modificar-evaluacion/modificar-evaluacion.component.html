@@ -1,1 +1,68 @@
-<p>modificar-evaluacion works!</p>
+<div>
+    <h2 mat-dialog-title>Modificar Evaluación</h2>
+    <hr />
+    <mat-dialog-content>
+      <form [formGroup]="form">
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Fecha</mat-label>
+                <input matInput placeholder="" formControlName="fecha" maxlength="10"/>
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Porcentaje</mat-label>
+                <input matInput placeholder="" formControlName="porcentaje" maxlength="3" />
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Exigible</mat-label>
+                <input matInput placeholder="" formControlName="exigible" maxlength="1"/>
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Área</mat-label>
+                <input matInput placeholder="" formControlName="area" maxlength="30"/>
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Tipo</mat-label>
+                <input matInput placeholder="" formControlName="tipo" maxlength="30"/>
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Prorroga</mat-label>
+                <input matInput placeholder="" formControlName="prorroga" maxlength="30"/>
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Profesor</mat-label>
+                <input matInput placeholder="" formControlName="ref_profesor" maxlength="13"/>
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Seccion</mat-label>
+                <input matInput placeholder="" formControlName="ref_instancia_curso" maxlength="10"/>
+            </mat-form-field>
+        </div>
+      </form>
+    </mat-dialog-content>
+    <hr />
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="onCloseConfirm()" [disabled]="form.invalid">Agregar</button>
+      <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+    </mat-dialog-actions>
+  </div>

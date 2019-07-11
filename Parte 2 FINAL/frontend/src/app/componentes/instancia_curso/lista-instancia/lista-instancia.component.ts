@@ -4,7 +4,7 @@ import { CursoService } from 'src/app/servicios/curso.service';
 import { MatDialog, MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { AgregarInstanciaComponent } from '../agregar-instancia/agregar-instancia.component';
 import { ModificarInstanciaComponent } from '../modificar-instancia/modificar-instancia.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-instancia',
@@ -13,10 +13,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ListaInstanciaComponent implements OnInit {
   id_curso : number;
-  columnas: string[] = ["id", "seccion", "anio", "semestre", "ref_profesor", "detalles", "eliminar"];
+  columnas: string[] = ["id", "seccion", "anio", "semestre", "ref_profesor", "evaluaciones", "detalles", "eliminar"];
   dataSource: MatTableDataSource<Instancia_curso>;
 
-  constructor(private cursoService: CursoService, private dialog: MatDialog, private route: ActivatedRoute) { }
+  constructor(private cursoService: CursoService, private dialog: MatDialog, public router: Router, private route: ActivatedRoute) { }
 
   @ViewChild(MatSort, { read: true, static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { read: true, static: false }) paginator: MatPaginator;
@@ -70,9 +70,9 @@ export class ListaInstanciaComponent implements OnInit {
     });
   }
 
-  modificarInstancia(codigo: number){
+  modificarInstancia(id: number){
     const dialogRef = this.dialog.open(ModificarInstanciaComponent, {
-      data: codigo,
+      data: id,
       width: '500px',
       disableClose: true,
       autoFocus: true
@@ -85,6 +85,10 @@ export class ListaInstanciaComponent implements OnInit {
         console.log("La instancia se modifico correctamente");
       } 
     });
+  }
+
+  redirigirAEvaluaciones(codigo: number){
+    this.router.navigate(['admin/instancia/evaluaciones/', codigo]);
   }
 
 }

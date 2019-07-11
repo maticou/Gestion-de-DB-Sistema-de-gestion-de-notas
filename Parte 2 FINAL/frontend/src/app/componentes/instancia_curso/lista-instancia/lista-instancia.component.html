@@ -34,6 +34,15 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Profesor Encargado </th>
             <td mat-cell *matCellDef="let element"> {{element.ref_profesor}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="evaluaciones">
+          <th mat-header-cell *matHeaderCellDef> Evaluaciones </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="redirigirAEvaluaciones(element.id)">
+                <mat-icon class="mat-18">Ver</mat-icon>
+            </button>
+          </td>
+        </ng-container>
       
         <ng-container matColumnDef="detalles">
           <th mat-header-cell *matHeaderCellDef> Editar </th>

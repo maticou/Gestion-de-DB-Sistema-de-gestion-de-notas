@@ -73,7 +73,7 @@ export class CursoService {
 
   agregarInstanciaCurso(data: Instancia_curso): Observable<Boolean>{
     const body = new HttpParams()
-    .set('periodo', '')
+    .set('periodo', '0')
     .set('seccion', data.seccion)
     .set('ref_profesor', data.ref_profesor)
     .set('ref_curso', data.ref_curso.toString())
@@ -99,9 +99,37 @@ export class CursoService {
     );
   }
 
+  obtenerDatosInstancia(id: number) : Observable<Instancia_curso>{
+    return this.http.get<Instancia_curso>(env.api.concat("/curso/obtener/instancia/"+id))
+    .pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+
   eliminarInstanciaCurso(id: number): Observable<Boolean>{
     const body = new HttpParams()
     return this.http.post<{ msg: string}>(env.api.concat("/curso/eliminarInstancia/"+id), body)
+    .pipe(
+      map(result => {
+        console.log(result);
+        return true;
+      })
+    );
+  }
+
+  modificarInstanciaCurso(data: Instancia_curso): Observable<Boolean>{
+    const body = new HttpParams()
+    .set('id', data.id.toString())
+    .set('periodo', data.periodo.toString())
+    .set('seccion', data.seccion)
+    .set('anio', data.anio.toString())
+    .set('semestre', data.semestre)
+    .set('ref_profesor', data.ref_profesor)
+    .set('ref_curso', data.ref_curso.toString())
+
+    return this.http.post<{ msg: string}>(env.api.concat("/curso/modificarInstancia"), body)
     .pipe(
       map(result => {
         console.log(result);

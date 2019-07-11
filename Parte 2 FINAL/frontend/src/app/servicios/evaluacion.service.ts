@@ -26,9 +26,7 @@ export class EvaluacionService {
     .set('area', data.area)
     .set('tipo', data.tipo)
     .set('prorroga', data.prorroga)
-    .set('nota', data.nota.toString())
     .set('ref_profesor', data.ref_profesor)
-    .set('ref_alumno', data.ref_alumno.toString())
     .set('ref_instancia_curso', data.ref_instancia_curso.toString())
 
     console.log(body);
@@ -59,17 +57,25 @@ export class EvaluacionService {
     );
   }
 
+  obtenerEvaluacionesCurso(codigo: number):  Observable<Evaluacion[]>{
+    return this.http.get<Evaluacion[]>(env.api.concat("/curso/obtener/evaluaciones/"+codigo))
+    .pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+
   modificarEvaluacion(data: Evaluacion): Observable<boolean>{
     const body = new HttpParams()
+    .set('codigo', data.codigo.toString())
     .set('fecha', data.fecha)
     .set('porcentaje', data.porcentaje.toString())
     .set('exigible', data.exigible.toString())
     .set('area', data.area)
     .set('tipo', data.tipo)
     .set('prorroga', data.prorroga)
-    .set('nota', data.nota.toString())
     .set('ref_profesor', data.ref_profesor)
-    .set('ref_alumno', data.ref_alumno.toString())
     .set('ref_instancia_curso', data.ref_instancia_curso.toString())
 
     return this.http.post<{ msg: string}>(env.api.concat("/evaluacion/modificar"), body)

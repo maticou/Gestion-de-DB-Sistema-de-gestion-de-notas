@@ -39,7 +39,7 @@ export class ListaCursoComponent implements OnInit {
   }
 
   redirigirASecciones(codigo: number){
-    this.router.navigate(['admin/instancia/', codigo]);
+    this.router.navigate(['admin/curso/secciones/', codigo]);
   }
 
   agregarCurso(){

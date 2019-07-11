@@ -6,8 +6,14 @@ export class Evaluacion{
     area: string;
     tipo: string;
     prorroga: string;
-    nota: number;
     ref_profesor: string;
+    ref_instancia_curso: number;
+}
+
+export class Instancia_evaluacion{
+    codigo: number;
     ref_alumno: number;
+    ref_evaluacion: number;
+    nota: number;
     ref_instancia_curso: number;
 }

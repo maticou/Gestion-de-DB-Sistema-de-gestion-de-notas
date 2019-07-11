@@ -1,1 +1,64 @@
-<p>lista-instancia works!</p>
+<div class="list-container" fxLayout="column" fxLayoutGap="10px">
+    <div fxLayout="row" fxFlex="50" align-items>
+      <div fxFlex="70">
+          <button mat-raised-button (click)="agregarInstancia()"> 
+            <mat-icon>add</mat-icon> Agregar Seccion
+          </button>
+      </div>
+    </div>
+  
+    <div fxFlex="50">
+  
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"> 
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="seccion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sección </th>
+            <td mat-cell *matCellDef="let element"> {{element.seccion}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="anio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Año</th>
+            <td mat-cell *matCellDef="let element"> {{element.anio}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="semestre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Semestre </th>
+            <td mat-cell *matCellDef="let element"> {{element.semestre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ref_profesor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Profesor Encargado </th>
+            <td mat-cell *matCellDef="let element"> {{element.ref_profesor}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="detalles">
+          <th mat-header-cell *matHeaderCellDef> Editar </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="modificarInstancia(element.id)">
+                <mat-icon class="mat-18">edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="eliminar">
+          <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="eliminarInstancia(element.id)">
+                <mat-icon class="mat-18">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+      </table>
+  
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" class="mat-elevation-z8">
+      </mat-paginator>
+  
+    </div>
+  </div>

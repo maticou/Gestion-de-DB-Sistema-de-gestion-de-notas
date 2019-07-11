@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 
 const Curso = require('../modelos/curso');
+const CursoAlumno = require('../modelos/cursoAlumno');
+
 const Instancia_curso = require('../modelos/instancia_curso');
 
 app.put('/curso/agregar', (req, res) =>{
@@ -44,6 +46,18 @@ app.get('/curso/obtener', (req, res) => {
 	});
 });
 
+app.get('/curso/obtener/cursos-alumno/:matricula', (req, res) => {
+	let matricula = req.params.matricula;
+
+	CursoAlumno.obtener_cursos_alumno(matricula, (err, cursos) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json(cursos);
+	});
+});
+
 app.get('/curso/obtener/:codigo', (req, res) => {
 	let codigo = req.params.codigo;
 
@@ -56,9 +70,21 @@ app.get('/curso/obtener/:codigo', (req, res) => {
 	});
 });
 
+app.get('/curso/obtener/instancias/:id_curso', (req, res) => {
+	let id_curso = req.params.id_curso;
+
+	Instancia_curso.obtener_instancias_curso(id_curso, (err, instancias) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json(instancias);
+	});
+});
+
 app.put('/curso/agregarInstancia', (req, res) =>{
 	let body = req.body;
-	let nueva_instancia = new Instancia_curso(0, body.periodo, body.ref_profesor, body.ref_curso, body.anio, body.semestre);
+	let nueva_instancia = new Instancia_curso(0, body.periodo, body.seccion, body.ref_profesor, body.ref_curso, body.anio, body.semestre);
 
 	Instancia_curso.agregar_instancia(nueva_instancia, (err, result) =>{
 		if(err){

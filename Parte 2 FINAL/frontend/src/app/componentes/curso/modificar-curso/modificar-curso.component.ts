@@ -15,6 +15,7 @@ export class ModificarCursoComponent implements OnInit {
   private cursoService: CursoService) { 
 
     this.form = new FormGroup({
+      codigo: new FormControl(""),
       nombre: new FormControl(""),
       carrera: new FormControl(""),
       ref_profesor_encargado: new FormControl("")
@@ -28,10 +29,10 @@ export class ModificarCursoComponent implements OnInit {
   obtenerDatosCurso(codigo: number){
     this.cursoService.obtenerDatosCurso(codigo).subscribe({
       next: result => {
-        this.form.get('codigo').setValue(result.codigo);
+        this.form.get('codigo').setValue(this.data);
         this.form.get('nombre').setValue(result.nombre);
         this.form.get('carrera').setValue(result.carrera);
-        this.form.get('ref_profesor_encargado').setValue(result.ref_profesor_ecargado);
+        this.form.get('ref_profesor_encargado').setValue(result.ref_profesor_encargado);
       },
       error: result => {
         console.log(result);

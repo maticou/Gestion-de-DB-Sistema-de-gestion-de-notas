@@ -1,8 +1,8 @@
 <div class="list-container" fxLayout="column" fxLayoutGap="10px">
         <div fxLayout="row" fxFlex="50" align-items>
           <div fxFlex="70">
-              <button mat-raised-button (click)="agregarAlumno()"> 
-                <mat-icon>add</mat-icon> Agregar Alumno
+              <button mat-raised-button (click)="agregarCurso()"> 
+                <mat-icon>add</mat-icon> Agregar Curso
               </button>
           </div>
         </div>
@@ -28,6 +28,15 @@
             <ng-container matColumnDef="ref_profesor_encargado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Profesor Encargado </th>
                 <td mat-cell *matCellDef="let element"> {{element.ref_profesor_encargado}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="secciones">
+              <th mat-header-cell *matHeaderCellDef> Secciones </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="primary" (click)="redirigirASecciones(element.codigo)">
+                    <mat-icon class="mat-18">Ver</mat-icon>
+                </button>
+              </td>
             </ng-container>
           
             <ng-container matColumnDef="detalles">

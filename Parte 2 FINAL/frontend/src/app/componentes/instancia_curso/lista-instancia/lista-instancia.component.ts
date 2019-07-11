@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Instancia_curso } from 'src/app/clases/instancia_curso';
+import { CursoService } from 'src/app/servicios/curso.service';
+import { MatDialog, MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { AgregarInstanciaComponent } from '../agregar-instancia/agregar-instancia.component';
+import { ModificarInstanciaComponent } from '../modificar-instancia/modificar-instancia.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-lista-instancia',
@@ -6,10 +12,79 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lista-instancia.component.scss']
 })
 export class ListaInstanciaComponent implements OnInit {
+  id_curso : number;
+  columnas: string[] = ["id", "seccion", "anio", "semestre", "ref_profesor", "detalles", "eliminar"];
+  dataSource: MatTableDataSource<Instancia_curso>;
 
-  constructor() { }
+  constructor(private cursoService: CursoService, private dialog: MatDialog, private route: ActivatedRoute) { }
 
+  @ViewChild(MatSort, { read: true, static: false }) sort: MatSort;
+  @ViewChild(MatPaginator, { read: true, static: false }) paginator: MatPaginator;
+  
   ngOnInit() {
+    this.id_curso = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.obtenerInstancias(this.id_curso);
+    this.dataSource = new MatTableDataSource();
+    this.dataSource.sort = this.sort;
+  }
+
+  refrescarTabla(){
+    this.obtenerInstancias(this.id_curso);
+  }
+
+  obtenerInstancias(id_curso: number){
+    this.cursoService.obtenerInstanciasCurso(id_curso).subscribe({
+      next: (result) => {this.dataSource.data = result;},
+      error: (err) => {console.log(err)}
+    });
+  }
+
+  eliminarInstancia(id: number){
+    this.cursoService.eliminarInstanciaCurso(id).subscribe({
+      next: result =>{
+        if(result == true){
+          this.refrescarTabla();
+          console.log("La seccion se elimino correctamente");
+        }
+      },
+      error: result => {
+        console.log("error");
+      }
+    });
+  }
+
+  agregarInstancia(){
+    const dialogRef = this.dialog.open(AgregarInstanciaComponent, {
+      width: '500px',
+      data: this.id_curso,
+      disableClose: true,
+      autoFocus: true
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if(result === "Confirm"){
+        this.refrescarTabla();
+        console.log("El instancia se registro correctamente");
+      } 
+    });
+  }
+
+  modificarInstancia(codigo: number){
+    const dialogRef = this.dialog.open(ModificarInstanciaComponent, {
+      data: codigo,
+      width: '500px',
+      disableClose: true,
+      autoFocus: true
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if(result == "Confirm"){
+        this.refrescarTabla();
+        console.log("La instancia se modifico correctamente");
+      } 
+    });
   }
 
 }

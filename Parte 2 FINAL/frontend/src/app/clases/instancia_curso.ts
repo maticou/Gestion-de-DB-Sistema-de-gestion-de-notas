@@ -6,4 +6,5 @@ export class Instancia_curso{
     semestre: string;
     ref_profesor: string;
     ref_curso: number;
+    porcentaje_restante: number;
 }

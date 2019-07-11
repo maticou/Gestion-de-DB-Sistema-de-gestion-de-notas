@@ -2,10 +2,11 @@ export class Curso{
     codigo: number;
     nombre: string;
     carrera: string;
-    ref_profesor_ecargado: string;
+    ref_profesor_encargado: string;
 }
 
-export class VistaCurso{
+export class CursoAlumno{
+    codigo: number;
     nombre: string;
     seccion: string;
     anio: string;

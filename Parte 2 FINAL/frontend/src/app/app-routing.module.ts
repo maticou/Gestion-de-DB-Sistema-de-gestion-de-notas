@@ -8,16 +8,18 @@ import { ListaInstanciaComponent } from './componentes/instancia_curso/lista-ins
 import { ListaMatriculaComponent } from './componentes/matricula/lista-matricula/lista-matricula.component';
 import { CursosComponent } from './vista-alumno/cursos/cursos.component';
 import { EvaluacionesComponent } from './vista-alumno/evaluaciones/evaluaciones.component';
+import { HistorialCursosComponent } from './vista-alumno/historial-cursos/historial-cursos.component';
 
 const routes: Routes = [
-  { path: 'alumno', component: MostrarAlumnoComponent },
-  { path: 'profesor', component: ListaProfesorComponent },
-  { path: 'curso', component: ListaCursoComponent },
-  { path: 'evaluacion', component: ListaEvaluacionComponent },
-  { path: 'instancia', component: ListaInstanciaComponent },
-  { path: 'matricula', component: ListaMatriculaComponent },
+  { path: 'admin/alumno', component: MostrarAlumnoComponent },
+  { path: 'admin/profesor', component: ListaProfesorComponent },
+  { path: 'admin/curso', component: ListaCursoComponent },
+  { path: 'admin/evaluacion', component: ListaEvaluacionComponent },
+  { path: 'admin/instancia/:id', component: ListaInstanciaComponent },
+  { path: 'admin/matricula', component: ListaMatriculaComponent },
   { path: 'vista-alumno', component: CursosComponent },
-  { path: 'vista-alumno/evaluaciones', component: EvaluacionesComponent },
+  { path: 'vista-alumno/evaluaciones/:id', component: EvaluacionesComponent },
+  { path: 'vista-alumno/historial', component: HistorialCursosComponent },
 ];
 
 @NgModule({

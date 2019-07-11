@@ -4,6 +4,7 @@ import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/m
 import { CursoService } from 'src/app/servicios/curso.service';
 import { AgregarCursoComponent } from '../agregar-curso/agregar-curso.component';
 import { ModificarCursoComponent } from '../modificar-curso/modificar-curso.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-curso',
@@ -12,10 +13,10 @@ import { ModificarCursoComponent } from '../modificar-curso/modificar-curso.comp
 })
 export class ListaCursoComponent implements OnInit {
 
-  columnas: string[] = ["codigo", "nombre", "carrera", "ref_profesor_encargado", "detalles"];
+  columnas: string[] = ["codigo", "nombre", "carrera", "ref_profesor_encargado", "secciones","detalles"];
   dataSource: MatTableDataSource<Curso>;
 
-  constructor(private cursoService: CursoService, private dialog: MatDialog) { }
+  constructor(private cursoService: CursoService, private dialog: MatDialog, public router: Router) { }
 
   @ViewChild(MatSort, { read: true, static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { read: true, static: false }) paginator: MatPaginator;
@@ -37,10 +38,13 @@ export class ListaCursoComponent implements OnInit {
     });
   }
 
+  redirigirASecciones(codigo: number){
+    this.router.navigate(['admin/instancia/', codigo]);
+  }
+
   agregarCurso(){
     const dialogRef = this.dialog.open(AgregarCursoComponent, {
       width: '500px',
-      height: '95%',
       disableClose: true,
       autoFocus: true
     });

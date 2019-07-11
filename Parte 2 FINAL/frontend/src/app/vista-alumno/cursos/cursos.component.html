@@ -24,7 +24,7 @@
         <ng-container matColumnDef="evaluaciones">
           <th mat-header-cell *matHeaderCellDef> Evaluaciones </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary" [routerLink]="['vista-alumno/evaluaciones']" [queryParams]="{codigo: element.codigo}">
+            <button mat-icon-button color="primary" (click)="redirigirAEvaluaciones(element.codigo)">
                 <mat-icon class="mat-18">edit</mat-icon>
             </button>
           </td>

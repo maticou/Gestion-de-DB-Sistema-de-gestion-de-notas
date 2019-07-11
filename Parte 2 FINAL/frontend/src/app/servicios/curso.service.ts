@@ -3,7 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../environments/environment';
 import { map } from 'rxjs/operators';
-import { Curso, VistaCurso } from '../clases/curso';
+import { Curso, CursoAlumno } from '../clases/curso';
+import { Instancia_curso } from '../clases/instancia_curso';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,9 @@ export class CursoService {
 
   agregarCurso(data: Curso): Observable<boolean>{
     const body = new HttpParams()
-    .set('codigo', data.codigo.toString())
     .set('nombre', data.nombre)
     .set('carrera', data.carrera)
-    .set('ref_profesor', data.ref_profesor_ecargado)
+    .set('ref_profesor', data.ref_profesor_encargado)
 
     return this.http.put<{ msg: string}>(env.api.concat("/curso/agregar"), body)
     .pipe(
@@ -51,7 +51,7 @@ export class CursoService {
     .set('codigo', data.codigo.toString())
     .set('nombre', data.nombre)
     .set('carrera', data.carrera)
-    .set('ref_profesor_encargado', data.ref_profesor_ecargado)
+    .set('ref_profesor_encargado', data.ref_profesor_encargado)
 
     return this.http.post<{ msg: string}>(env.api.concat("/curso/modificar"), body)
     .pipe(
@@ -62,11 +62,50 @@ export class CursoService {
     );
   }
 
-  obtenerVistaCursos(): Observable<VistaCurso[]>{
-    return this.http.get<VistaCurso[]>(env.api.concat("/curso/obtener/vista-alumno"))
+  obtenerVistaCursos(matricula: number): Observable<CursoAlumno[]>{
+    return this.http.get<CursoAlumno[]>(env.api.concat("/cursoAlumno/obtener/cursos-alumno/"+matricula))
     .pipe(
       map(result => {
         return result;
+      })
+    );
+  }
+
+  agregarInstanciaCurso(data: Instancia_curso): Observable<Boolean>{
+    const body = new HttpParams()
+    .set('periodo', '')
+    .set('seccion', data.seccion)
+    .set('ref_profesor', data.ref_profesor)
+    .set('ref_curso', data.ref_curso.toString())
+    .set('anio', data.anio.toString())
+    .set('semestre', data.semestre)
+
+    console.log(body);
+    return this.http.put<{ msg: string}>(env.api.concat("/curso/agregarInstancia"), body)
+    .pipe(
+      map(result => {
+        console.log(result);
+        return true;
+      })
+    );
+  }
+
+  obtenerInstanciasCurso(id_curso: number) : Observable<Instancia_curso[]>{
+    return this.http.get<Instancia_curso[]>(env.api.concat("/curso/obtener/instancias/"+id_curso))
+    .pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+
+  eliminarInstanciaCurso(id: number): Observable<Boolean>{
+    const body = new HttpParams()
+    return this.http.post<{ msg: string}>(env.api.concat("/curso/eliminarInstancia/"+id), body)
+    .pipe(
+      map(result => {
+        console.log(result);
+        return true;
       })
     );
   }

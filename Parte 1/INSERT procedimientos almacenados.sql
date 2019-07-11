@@ -34,8 +34,12 @@ CREATE OR REPLACE PROCEDURE agregar_curso(
 	IN _ref_profesor_encargado varchar(12)
 ) AS $$
 BEGIN
-  	INSERT INTO curso (nombre, carrera, ref_profesor_encargado)
-  	VALUES (_nombre, _carrera, _ref_profesor_encargado);
+	IF ((SELECT estado FROM profesor WHERE profesor.rut=_ref_profesor_encargado) = 1) THEN
+	  	INSERT INTO curso (nombre, carrera, ref_profesor_encargado)
+	  	VALUES (_nombre, _carrera, _ref_profesor_encargado);
+	ELSE
+		RAISE NOTICE 'El profesor no está disponibles';
+	END IF;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -44,8 +48,12 @@ CREATE OR REPLACE PROCEDURE agregar_curso(
 	IN _ref_profesor_encargado varchar(12)
 ) AS $$
 BEGIN
-  	INSERT INTO curso (nombre, carrera, ref_profesor_encargado)
-	VALUES (_nombre, 'COMUN', _ref_profesor_encargado);
+	IF ((SELECT estado FROM profesor WHERE profesor.rut=_ref_profesor_encargado) = 1) THEN
+	  	INSERT INTO curso (nombre, carrera, ref_profesor_encargado)
+		VALUES (_nombre, 'COMUN', _ref_profesor_encargado);
+	ELSE
+		RAISE NOTICE 'El profesor no está disponibles';
+	END IF;  	
 END;
 $$ LANGUAGE plpgsql;
 
@@ -76,18 +84,22 @@ CREATE OR REPLACE PROCEDURE agregar_instancia(
 	IN _semestre tipo_semestre
 ) AS $$
 BEGIN
-	IF (SELECT verificar_existe_profesor_encargado(_ref_curso) = 1) THEN
-		IF ((SELECT COUNT(id) FROM instancia_curso WHERE periodo=_periodo AND seccion=_seccion AND ref_curso=_ref_curso AND anio=_anio AND semestre=_semestre) = 0) THEN
-			INSERT INTO instancia_curso(periodo, seccion, ref_profesor, ref_curso, anio, semestre) 
-	    	VALUES (_periodo, _seccion, _ref_profesor, _ref_curso, _anio, _semestre);
-			RAISE NOTICE 'Instancia curso creada exitosamente';
+	IF ((SELECT estado FROM profesor WHERE profesor.rut=_ref_profesor) = 1) THEN
+		IF (SELECT verificar_existe_profesor_encargado(_ref_curso) = 1) THEN
+			IF ((SELECT COUNT(id) FROM instancia_curso WHERE periodo=_periodo AND seccion=_seccion AND ref_curso=_ref_curso AND anio=_anio AND semestre=_semestre) = 0) THEN
+				INSERT INTO instancia_curso(periodo, seccion, ref_profesor, ref_curso, anio, semestre) 
+		    	VALUES (_periodo, _seccion, _ref_profesor, _ref_curso, _anio, _semestre);
+				RAISE NOTICE 'Instancia curso creada exitosamente';
+			ELSE
+				RAISE NOTICE 'No se pudo crear la instancia del curso porque ya existe';
+			END IF;
+			
 		ELSE
-			RAISE NOTICE 'No se pudo crear la instancia del curso porque ya existe';
-		END IF;
-		
+			RAISE NOTICE 'No se pudo crear la instancia del curso porque el curso base no tiene profesor encargado';
+		END IF;  
 	ELSE
-		RAISE NOTICE 'No se pudo crear la instancia del curso porque el curso base no tiene profesor encargado';
-	END IF;    
+		RAISE NOTICE 'El profesor no está disponibles';
+	END IF;  
 END;
 $$ LANGUAGE plpgsql;
 
@@ -101,8 +113,8 @@ DECLARE
 BEGIN
 	IF(alumno_habilitado(_ref_alumno) = 1) THEN
 		IF(num_alumnos < 40) THEN
-		    INSERT INTO matricula(ref_alumno, ref_instancia_curso, situacion, nota_final) 
-		    VALUES (_ref_alumno, _ref_curso, NULL, 0);
+		    INSERT INTO matricula(ref_alumno, ref_instancia_curso, nota_final) 
+		    VALUES (_ref_alumno, _ref_curso, 0);
 
 			RAISE NOTICE 'El alumno se ha inscrito correctamente en la seccion';
 		ELSE
@@ -131,19 +143,23 @@ DECLARE
 								WHERE instancia_curso.id = _ref_instancia_curso;
 	valor RECORD; 
 BEGIN
-	IF (_porcentaje>0 AND _porcentaje<101) THEN
-		OPEN cursor_porcentaje;	
-		FETCH cursor_porcentaje INTO valor;
-		IF (valor.porcentaje_restante >= _porcentaje) THEN
-			INSERT INTO evaluacion(fecha, porcentaje, exigible, area, tipo, prorroga, ref_profesor,ref_instancia_curso) 
-			VALUES (_fecha, _porcentaje, _exigible, _area, _tipo, _prorroga, _ref_profesor, _ref_instancia_curso);
-			RAISE NOTICE 'La evaluación fue registrada correctamente';
+	IF ((SELECT estado FROM profesor WHERE profesor.rut=_ref_profesor) = 1) THEN
+		IF (_porcentaje>0 AND _porcentaje<101) THEN
+			OPEN cursor_porcentaje;	
+			FETCH cursor_porcentaje INTO valor;
+			IF (valor.porcentaje_restante >= _porcentaje) THEN
+				INSERT INTO evaluacion(fecha, porcentaje, exigible, area, tipo, prorroga, ref_profesor,ref_instancia_curso) 
+				VALUES (_fecha, _porcentaje, _exigible, _area, _tipo, _prorroga, _ref_profesor, _ref_instancia_curso);
+				RAISE NOTICE 'La evaluación fue registrada correctamente';
+			ELSE
+				RAISE NOTICE 'No puede crear esta evaluación con porcentaje %, ya que al curso le queda % %% restante', _porcentaje, valor.porcentaje_restante;
+			END IF;		
 		ELSE
-			RAISE NOTICE 'No puede crear esta evaluación con porcentaje %, ya que al curso le queda % %% restante', _porcentaje, valor.porcentaje_restante;
-		END IF;		
+			RAISE NOTICE 'No se registró la evaluación porque el porcentaje no está en el rango [1,100]';		
+		END IF;	
 	ELSE
-		RAISE NOTICE 'No se registró la evaluación porque el porcentaje no está en el rango [1,100]';		
-	END IF;	    
+		RAISE NOTICE 'El profesor no está disponibles';
+	END IF;    
 END;
 $$ LANGUAGE plpgsql;
 

@@ -33,3 +33,39 @@ LANGUAGE 'plpgsql';
 CREATE TRIGGER agregar_evaluacion_por_alumno
 AFTER INSERT ON evaluacion
 FOR EACH ROW EXECUTE FUNCTION cursor_agregar_evaluacion_por_alumno();
+
+
+CREATE OR REPLACE FUNCTION cursor_actualizar_evaluacion_por_alumno()
+RETURNS TRIGGER AS $$
+DECLARE
+	cursor_porcentaje_a CURSOR FOR SELECT porcentaje_restante
+								FROM instancia_curso
+								WHERE instancia_curso.id = NEW.ref_instancia_curso;
+	reg RECORD;
+	valor RECORD;
+	cursor_alumnos CURSOR FOR SELECT *
+								FROM alumno, matricula
+								WHERE alumno.matricula_id=matricula.ref_alumno
+								AND ref_instancia_curso=NEW.ref_instancia_curso;
+BEGIN 	
+	OPEN cursor_porcentaje_a;	
+	FETCH cursor_porcentaje_a INTO valor;
+	OPEN cursor_alumnos;	
+	FETCH cursor_alumnos INTO reg;
+	IF (OLD.porcentaje < NEW.porcentaje) THEN		
+		UPDATE instancia_curso 
+		SET porcentaje_restante=(porcentaje_restante-NEW.porcentaje) 
+		WHERE instancia_curso.id = reg.ref_instancia_curso;		
+	ELSE
+		UPDATE instancia_curso 
+		SET porcentaje_restante=(porcentaje_restante+(OLD.porcentaje-NEW.porcentaje))
+		WHERE instancia_curso.id = reg.ref_instancia_curso;	
+	END IF;
+	RETURN NEW;
+END;$$
+LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER actualizar_evaluacion_por_alumno
+AFTER UPDATE ON evaluacion
+FOR EACH ROW EXECUTE FUNCTION cursor_actualizar_evaluacion_por_alumno();

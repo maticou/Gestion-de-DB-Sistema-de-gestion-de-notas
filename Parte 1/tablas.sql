@@ -46,7 +46,7 @@ CREATE TABLE instancia_curso
 	PRIMARY KEY (id)	
 );
 
-CREATE TYPE situacion_matricula AS ENUM ('APROBADO', 'REPROBADO');
+CREATE TYPE situacion_matricula AS ENUM ('APROBADO', 'REPROBADO', 'CURSANDO');
 
 CREATE TABLE matricula
 (
@@ -54,7 +54,7 @@ CREATE TABLE matricula
 	nota_final integer NOT NULL DEFAULT 0,
 	ref_alumno integer NOT NULL REFERENCES alumno(matricula_id),
 	ref_instancia_curso integer NOT NULL REFERENCES instancia_curso(id),
-	situacion situacion_matricula NULL,
+	situacion situacion_matricula NOT NULL DEFAULT 'CURSANDO',
 	PRIMARY KEY (codigo_matricula)
 );
 

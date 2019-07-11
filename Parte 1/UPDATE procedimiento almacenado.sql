@@ -68,14 +68,18 @@ CREATE OR REPLACE PROCEDURE modificar_instancia(
 	IN _semestre tipo_semestre
 ) AS $$
 BEGIN
-    UPDATE instancia_curso
-	SET periodo = _periodo,
-		seccion = _seccion,
-		ref_profesor = _ref_profesor,
-		ref_curso = _ref_curso,
-		anio = _anio,
-		semestre = _semestre
-	WHERE id = _id;
+	IF ((SELECT COUNT(id) FROM instancia_curso WHERE periodo=_periodo AND seccion=_seccion AND ref_curso=_ref_curso AND anio=_anio AND semestre=_semestre) = 0) THEN
+	    UPDATE instancia_curso
+		SET periodo = _periodo,
+			seccion = _seccion,
+			ref_profesor = _ref_profesor,
+			ref_curso = _ref_curso,
+			anio = _anio,
+			semestre = _semestre
+		WHERE id = _id;
+	ELSE
+		RAISE NOTICE 'No se puede modificar la instancia con estos datos porque ya existe una instancia así';
+	END IF;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -104,8 +108,7 @@ CREATE OR REPLACE PROCEDURE modificar_evaluacion(
 	IN _area VARCHAR(20),
 	IN _tipo VARCHAR(20),
 	IN _prorroga VARCHAR(255),	
-	IN _ref_profesor VARCHAR(12),
-	IN _ref_alumno integer,
+	IN _ref_profesor VARCHAR(12),	
 	IN _ref_instancia_curso integer
 ) AS $$ 
 BEGIN
@@ -117,8 +120,7 @@ BEGIN
 			area = _area,
 			tipo = _tipo,
 			prorroga = _prorroga,
-			ref_profesor = _ref_profesor,
-			ref_alumno = _ref_alumno,
+			ref_profesor = _ref_profesor,			
 			ref_instancia_curso = _ref_instancia_curso
 		WHERE codigo = _codigo;
 		RAISE NOTICE 'La evaluación fue modificada correctamente';

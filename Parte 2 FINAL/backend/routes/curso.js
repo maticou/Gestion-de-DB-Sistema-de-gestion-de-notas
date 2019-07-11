@@ -44,6 +44,18 @@ app.get('/curso/obtener', (req, res) => {
 	});
 });
 
+app.get('/curso/obtener/:codigo', (req, res) => {
+	let codigo = req.params.codigo;
+
+	Curso.obtener_curso(codigo, (err, cursos) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json(cursos);
+	});
+});
+
 app.put('/curso/agregarInstancia', (req, res) =>{
 	let body = req.body;
 	let nueva_instancia = new Instancia_curso(0, body.periodo, body.ref_profesor, body.ref_curso, body.anio, body.semestre);

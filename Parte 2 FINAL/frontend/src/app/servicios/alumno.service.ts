@@ -21,7 +21,6 @@ export class AlumnoService {
     .set('apellido_materno', data.apellido_materno)
     .set('correo', data.correo)
     .set('telefono', data.telefono.toString())
-    .set('estado', data.estado.toString());
 
     console.log(body);
     return this.http.put<{ msg: string}>(env.api.concat("/alumno/agregar"), body)
@@ -29,6 +28,15 @@ export class AlumnoService {
       map(result => {
         console.log(result.msg);
         return true;
+      })
+    );
+  }
+
+  obtenerDatosAlumno(matricula: number): Observable<Alumno>{
+    return this.http.get<Alumno>(env.api.concat("/alumno/obtener/"+matricula))
+    .pipe(
+      map(result => {
+        return result;
       })
     );
   }
@@ -55,6 +63,7 @@ export class AlumnoService {
   }
 
   modificarAlumno(data: Alumno): Observable<boolean>{
+    console.log(data);
     const body = new HttpParams()
     .set('matricula_id', data.matricula_id.toString())
     .set('rut', data.rut)
@@ -63,9 +72,8 @@ export class AlumnoService {
     .set('apellido_materno', data.apellido_materno)
     .set('correo', data.correo)
     .set('telefono', data.telefono.toString())
-    .set('estado', data.estado.toString());
 
-    return this.http.post<{ msg: string}>(env.api.concat("/producer/updateLocation"), body)
+    return this.http.post<{ msg: string}>(env.api.concat("/alumno/modificar"), body)
     .pipe(
       map(result => {
         console.log(result);

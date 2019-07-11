@@ -1,0 +1,64 @@
+<div class="list-container" fxLayout="column" fxLayoutGap="10px">
+        <div fxLayout="row" fxFlex="50" align-items>
+          <div fxFlex="70">
+              <button mat-raised-button (click)="agregarProfesor()"> 
+                <mat-icon>add</mat-icon> Agregar Profesor
+              </button>
+          </div>
+        </div>
+      
+        <div fxFlex="50">
+      
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"> 
+            <ng-container matColumnDef="rut">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Rut </th>
+                <td mat-cell *matCellDef="let element"> {{element.rut}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="apellido">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido</th>
+                <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="telefono">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </th>
+                <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="correo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo </th>
+                <td mat-cell *matCellDef="let element"> {{element.correo}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="detalles">
+              <th mat-header-cell *matHeaderCellDef> Editar </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="primary" (click)="modificarProfesor(element.rut)">
+                    <mat-icon class="mat-18">edit</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="eliminar">
+              <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="warn" (click)="eliminarProfesor(element.rut)">
+                    <mat-icon class="mat-18">delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+          </table>
+      
+          <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" class="mat-elevation-z8">
+          </mat-paginator>
+      
+        </div>
+      </div>

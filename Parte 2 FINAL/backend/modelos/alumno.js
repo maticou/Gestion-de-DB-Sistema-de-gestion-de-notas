@@ -81,6 +81,24 @@ class Alumno{
     		return callback(err);
     	})
 	}
+
+    static obtener_alumno(matricula, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback funtion. Please provide them');
+        }
+        db.any('SELECT * FROM alumno WHERE matricula_id = $1', matricula).then(function(results){
+            let alumnos = [];
+            for(const alumno of results){
+                alumnos.push(new Alumno(alumno.matricula_id, alumno.rut, alumno.nombre, alumno.apellido_paterno,
+                    alumno.apellido_materno, alumno.correo, alumno.telefono, alumno.estado));
+            }
+
+            return callback(null, alumnos[0]);
+        })
+        .catch(function(err){
+            return callback(err);
+        })
+    }
 }
 
 module.exports = Alumno;

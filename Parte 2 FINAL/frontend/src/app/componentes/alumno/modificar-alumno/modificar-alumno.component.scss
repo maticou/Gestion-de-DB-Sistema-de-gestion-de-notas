@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container > * {
+    width: 100%;
+  }
+
+.form-div{
+  display: flex;
+  flex-direction: row;
+  }
+
+  .form-div > * {
+    width: 100%;
+  }
+
+.input{
+  width: 100%;
+  padding-left: 15px;
+}
+
+.position-form{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

@@ -1,0 +1,50 @@
+<div class="list-container" fxLayout="column" fxLayoutGap="10px">
+        <div fxLayout="row" fxFlex="50" align-items>
+          <div fxFlex="70">
+              <button mat-raised-button (click)="agregarAlumno()"> 
+                <mat-icon>add</mat-icon> Agregar Alumno
+              </button>
+          </div>
+        </div>
+      
+        <div fxFlex="50">
+      
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"> 
+            <ng-container matColumnDef="codigo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
+                <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="carrera">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Carrera </th>
+                <td mat-cell *matCellDef="let element"> {{element.carrera}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="ref_profesor_encargado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Profesor Encargado </th>
+                <td mat-cell *matCellDef="let element"> {{element.ref_profesor_encargado}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="detalles">
+              <th mat-header-cell *matHeaderCellDef> Editar </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="primary" (click)="modificarCurso(element.codigo)">
+                    <mat-icon class="mat-18">edit</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+          </table>
+      
+          <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" class="mat-elevation-z8">
+          </mat-paginator>
+      
+        </div>
+      </div>

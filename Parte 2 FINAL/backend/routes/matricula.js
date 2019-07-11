@@ -5,8 +5,8 @@ const Matricula = require('../modelos/matricula');
 
 app.put('/matricula/agregar', (req, res) =>{
 	let body = req.body;
-	let nueva_matricula = new Matricula(0, body.ref_alumno, body.ref_instancia_curso, body.situacion, 
-		body.nota_final);
+	let nueva_matricula = new Matricula(0, body.ref_alumno, body.ref_instancia_curso, 0, 
+		0);
 
 	Matricula.agregar_matricula(nueva_matricula, (err, result) =>{
 		if(err){

@@ -5,6 +5,7 @@ import { MatDialog, MatTableDataSource, MatSort, MatPaginator } from '@angular/m
 import { AgregarInstanciaComponent } from '../agregar-instancia/agregar-instancia.component';
 import { ModificarInstanciaComponent } from '../modificar-instancia/modificar-instancia.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AgregarMatriculaComponent } from '../../matricula/agregar-matricula/agregar-matricula.component';
 
 @Component({
   selector: 'app-lista-instancia',
@@ -13,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ListaInstanciaComponent implements OnInit {
   id_curso : number;
-  columnas: string[] = ["id", "seccion", "anio", "semestre", "ref_profesor", "evaluaciones", "detalles", "eliminar"];
+  columnas: string[] = ["id", "seccion", "anio", "semestre", "ref_profesor", "evaluaciones", "matricula","detalles", "eliminar"];
   dataSource: MatTableDataSource<Instancia_curso>;
 
   constructor(private cursoService: CursoService, private dialog: MatDialog, public router: Router, private route: ActivatedRoute) { }
@@ -83,6 +84,23 @@ export class ListaInstanciaComponent implements OnInit {
       if(result == "Confirm"){
         this.refrescarTabla();
         console.log("La instancia se modifico correctamente");
+      } 
+    });
+  }
+
+  inscribirAlumno(id: number){
+    const dialogRef = this.dialog.open(AgregarMatriculaComponent, {
+      data: id,
+      width: '500px',
+      disableClose: true,
+      autoFocus: true
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if(result == "Confirm"){
+        this.refrescarTabla();
+        console.log("El alumno se ha inscrito correctamente");
       } 
     });
   }

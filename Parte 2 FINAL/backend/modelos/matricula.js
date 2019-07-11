@@ -13,10 +13,9 @@ class Matricula{
 		if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        db.none('CALL inscribir_curso($1, $2, $3)', 
+        db.none('CALL inscribir_curso($1, $2)', 
         	[matricula.ref_alumno,
-        	matricula.ref_instancia_curso,
-        	matricula.situacion])
+        	matricula.ref_instancia_curso])
         .then(function(err, results, fields){
         	return callback(null, true)
     	})

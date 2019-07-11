@@ -17,7 +17,7 @@ export class CursoService {
     const body = new HttpParams()
     .set('nombre', data.nombre)
     .set('carrera', data.carrera)
-    .set('ref_profesor', data.ref_profesor_encargado)
+    .set('ref_profesor_encargado', data.ref_profesor_encargado)
 
     return this.http.put<{ msg: string}>(env.api.concat("/curso/agregar"), body)
     .pipe(

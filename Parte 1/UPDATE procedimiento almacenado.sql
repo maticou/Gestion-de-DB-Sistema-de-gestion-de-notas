@@ -167,3 +167,30 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE PROCEDURE modificar_clave_alumno(
+	IN _contrasena varchar(20),
+	IN _ref_alumno integer
+) AS $$
+BEGIN
+	UPDATE alumno_seguridad
+	SET contrasena = _contrasena
+	WHERE ref_alumno = _ref_alumno;
+
+	RAISE NOTICE 'Clave modificada';
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE PROCEDURE modificar_clave_profesor(
+	IN _contrasena varchar(20),
+	IN _ref_profesor varchar(12)
+) AS $$
+BEGIN
+	UPDATE profesor_seguridad
+	SET contrasena = _contrasena
+	WHERE ref_profesor = _ref_profesor;
+
+	RAISE NOTICE 'Clave modificada';
+END;
+$$ LANGUAGE plpgsql;
+

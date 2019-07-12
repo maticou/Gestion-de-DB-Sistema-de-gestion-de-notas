@@ -156,17 +156,21 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---FALTA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 CREATE OR REPLACE FUNCTION reporte_cursos_con_porcentaje_de_reprobados(
 	) RETURNS TABLE (
-	   rut varchar(12),
-	   nombre_profesor varchar(50),
-	   apellido varchar(50),
-	   cantidad_alumnos_reprobados bigint
+	   codigo_del_curso integer,
+	   nombre_del_curso varchar(50),
+	   porcentaje_alumnos_reprobados bigint
 	   ) AS $$
 BEGIN
 	RETURN QUERY 
-	SELECT curso.codigo AS codigo_curso,
+	SELECT T1.codigo_curso AS codigo_del_curso,
+	T1.nombre_curso AS nombre_del_curso,
+	((T1.cantidad_alumnos_reprobados*100)/T2.cantidad_alumnos) AS porcentaje_alumnos_reprobados
+	FROM 
+	(SELECT curso.codigo AS codigo_curso,
 	curso.nombre AS nombre_curso,
 	COUNT(matricula.codigo_matricula) AS cantidad_alumnos_reprobados
 	FROM instancia_curso, matricula, curso
@@ -174,7 +178,15 @@ BEGIN
 	AND instancia_curso.id=matricula.ref_instancia_curso
 	AND matricula.situacion='REPROBADO'
 	GROUP BY (curso.codigo)
-	ORDER BY cantidad_alumnos_reprobados DESC;
+	ORDER BY cantidad_alumnos_reprobados DESC) AS T1,  
+	(SELECT curso.codigo AS codigo_curso,
+	COUNT(matricula.codigo_matricula) AS cantidad_alumnos
+	FROM instancia_curso, matricula, curso
+	WHERE instancia_curso.ref_curso=curso.codigo	
+	AND instancia_curso.id=matricula.ref_instancia_curso
+	GROUP BY (curso.codigo)
+	ORDER BY cantidad_alumnos DESC) AS T2
+	WHERE T1.codigo_curso=T2.codigo_curso;
 END;
 $$ LANGUAGE plpgsql;
 

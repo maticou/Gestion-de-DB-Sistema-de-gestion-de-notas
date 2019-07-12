@@ -7,11 +7,15 @@ CREATE OR REPLACE PROCEDURE agregar_alumno(
 	IN _apellido_paterno VARCHAR(50),
 	IN _apellido_materno VARCHAR(50),
 	IN _correo VARCHAR(50),
-	IN _telefono VARCHAR(15)
+	IN _telefono VARCHAR(15),
+	IN _clave VARCHAR(20)
 ) AS $$
 BEGIN
   INSERT INTO alumno (matricula_id, rut, nombre, apellido_paterno, apellido_materno, correo,telefono) 
   VALUES (_matricula, _rut, _nombre, _apellido_paterno, _apellido_materno, _correo, _telefono);
+
+  INSERT INTO alumno_seguridad (contrasena, ref_alumno) 
+  VALUES (_clave, _matricula);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -20,11 +24,15 @@ CREATE OR REPLACE PROCEDURE registrar_profesor(
 	IN _nombre VARCHAR(50),
 	IN _apellido VARCHAR(50),
 	IN _correo VARCHAR(50),
-	IN _telefono VARCHAR(15)
+	IN _telefono VARCHAR(15),
+	IN _clave VARCHAR(20)
 ) AS $$
 BEGIN
   INSERT INTO profesor (rut, nombre, apellido, correo, telefono) 
   VALUES (_rut, _nombre, _apellido, _correo, _telefono);
+
+  INSERT INTO profesor_seguridad (contrasena, ref_profesor) 
+  VALUES (_clave, _rut);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -175,4 +183,3 @@ BEGIN
 	RAISE NOTICE 'La instancia evaluación fue registrada correctamente';    
 END;
 $$ LANGUAGE plpgsql;
-

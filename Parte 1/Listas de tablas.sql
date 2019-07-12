@@ -144,7 +144,8 @@ CREATE OR REPLACE FUNCTION lista_evaluaciones_por_instancia_curso_por_alumno(
 		tipo tipo_evaluacion,
 		prorroga varchar(255),	
 		ref_profesor varchar(12),	
-		ref_instancia_curso integer
+		ref_instancia_curso integer,
+		nota integer
 	   ) AS $$
 BEGIN
 	RETURN QUERY 
@@ -156,11 +157,13 @@ BEGIN
 		evaluacion.tipo AS tipo,
 		evaluacion.prorroga AS prorroga,	
 		evaluacion.ref_profesor AS ref_profesor,	
-		evaluacion.ref_instancia_curso AS ref_instancia_curso
-	FROM evaluacion, instancia_curso, matricula
+		evaluacion.ref_instancia_curso AS ref_instancia_curso,
+		instancia_evaluacion.nota AS nota
+	FROM evaluacion, instancia_curso, matricula, instancia_evaluacion
 	WHERE evaluacion.ref_instancia_curso=instancia_curso.id
 	AND evaluacion.ref_instancia_curso=_id
 	AND matricula.ref_instancia_curso=_id
+	AND instancia_evaluacion.ref_evaluacion=evaluacion.codigo
 	AND matricula.ref_alumno=_matricula_id;
 END;
 $$ LANGUAGE plpgsql;

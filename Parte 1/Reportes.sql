@@ -90,7 +90,114 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION mostrar_numero_cursos_dictados_por_profesor(
+
+CREATE OR REPLACE FUNCTION reporte_alumnos_con_mejor_promedio(
+	) RETURNS TABLE (
+	   matricula_alumno integer,
+	   nombre_alumno varchar(50),
+	   apellido_paterno varchar(50),
+	   promedio_final bigint
+	   ) AS $$
+BEGIN
+	IF ((SELECT COUNT(T1.cantidad_notas)
+		FROM (SELECT COUNT(matricula.nota_final) AS cantidad_notas
+			FROM matricula, alumno
+			WHERE matricula.ref_alumno=alumno.matricula_id
+			GROUP BY (alumno.matricula_id)) AS T1
+		WHERE T1.cantidad_notas=0) = 0) THEN
+	
+		RETURN QUERY 	
+		SELECT alumno.matricula_id AS matricula_alumno,
+		alumno.nombre AS nombre_alumno,
+		alumno.apellido_paterno AS apellido_paterno,
+		(SUM(matricula.nota_final)/COUNT(matricula.nota_final)) AS promedio_final
+		FROM matricula, alumno
+		WHERE matricula.ref_alumno=alumno.matricula_id
+		GROUP BY (alumno.matricula_id)
+		ORDER BY (promedio_final) DESC;
+	ELSE
+		RAISE NOTICE 'No se puede generar este reporte porque aún hay alumnos sin todas sus notas finales';
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION reporte_alumnos_con_peor_promedio(
+	) RETURNS TABLE (
+	   matricula_alumno integer,
+	   nombre_alumno varchar(50),
+	   apellido_paterno varchar(50),
+	   promedio_final bigint
+	   ) AS $$
+BEGIN
+	IF ((SELECT COUNT(T1.cantidad_notas)
+		FROM (SELECT COUNT(matricula.nota_final) AS cantidad_notas
+			FROM matricula, alumno
+			WHERE matricula.ref_alumno=alumno.matricula_id
+			GROUP BY (alumno.matricula_id)) AS T1
+		WHERE T1.cantidad_notas=0) = 0) THEN
+	
+		RETURN QUERY 	
+		SELECT alumno.matricula_id AS matricula_alumno,
+		alumno.nombre AS nombre_alumno,
+		alumno.apellido_paterno AS apellido_paterno,
+		(SUM(matricula.nota_final)/COUNT(matricula.nota_final)) AS promedio_final
+		FROM matricula, alumno
+		WHERE matricula.ref_alumno=alumno.matricula_id
+		GROUP BY (alumno.matricula_id)
+		ORDER BY (promedio_final) ASC;
+	ELSE
+		RAISE NOTICE 'No se puede generar este reporte porque aún hay alumnos sin todas sus notas finales';
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION reporte_alumnos_con_mayor_numero_cursos_reprobados(
+	) RETURNS TABLE (
+	   matricula_alumno integer,
+	   nombre_alumno varchar(50),
+	   apellido_paterno varchar(50),
+	   cantidad_cursos_reprobados bigint
+	   ) AS $$
+BEGIN
+	RETURN QUERY
+	SELECT alumno.matricula_id AS matricula_alumno,
+	alumno.nombre AS nombre_alumno,
+	alumno.apellido_paterno AS apellido_paterno,
+	COUNT(matricula.situacion) AS cantidad_cursos_reprobados
+	FROM matricula, alumno
+	WHERE matricula.ref_alumno=alumno.matricula_id
+	AND matricula.situacion='REPROBADO'
+	GROUP BY (matricula_alumno)
+	ORDER BY (cantidad_cursos_reprobados) DESC;	
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION reporte_alumnos_con_mayor_numero_cursos_aprobados(
+	) RETURNS TABLE (
+	   matricula_alumno integer,
+	   nombre_alumno varchar(50),
+	   apellido_paterno varchar(50),
+	   cantidad_cursos_aprobados bigint
+	   ) AS $$
+BEGIN
+	RETURN QUERY
+	SELECT alumno.matricula_id AS matricula_alumno,
+	alumno.nombre AS nombre_alumno,
+	alumno.apellido_paterno AS apellido_paterno,
+	COUNT(matricula.situacion) AS cantidad_cursos_aprobados
+	FROM matricula, alumno
+	WHERE matricula.ref_alumno=alumno.matricula_id
+	AND matricula.situacion='APROBADO'
+	GROUP BY (matricula_alumno)
+	ORDER BY (cantidad_cursos_aprobados) DESC;	
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION reporte_numero_cursos_dictados_por_profesor(
 	) RETURNS TABLE (
 	   rut varchar(12),
 	   nombre_profesor varchar(50),
@@ -111,7 +218,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION mostrar_profesores_con_numero_de_reprobados(
+CREATE OR REPLACE FUNCTION reporte_profesores_con_numero_de_reprobados(
 	) RETURNS TABLE (
 	   rut varchar(12),
 	   nombre_profesor varchar(50),
@@ -132,6 +239,66 @@ BEGIN
 	ORDER BY cantidad_alumnos_reprobados DESC;
 END;
 $$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION reporte_profesores_con_numero_de_aprobados(
+	) RETURNS TABLE (
+	   rut varchar(12),
+	   nombre_profesor varchar(50),
+	   apellido varchar(50),
+	   cantidad_alumnos_reprobados bigint
+	   ) AS $$
+BEGIN
+	RETURN QUERY 
+	SELECT profesor.rut AS rut,
+	profesor.nombre AS nombre_profesor,
+	profesor.apellido AS apellido,
+	COUNT(matricula.codigo_matricula) AS cantidad_alumnos_reprobados
+	FROM profesor, instancia_curso, matricula
+	WHERE profesor.rut=instancia_curso.ref_profesor	
+	AND instancia_curso.id=matricula.ref_instancia_curso
+	AND matricula.situacion='APROBADO'
+	GROUP BY (profesor.rut)
+	ORDER BY cantidad_alumnos_reprobados DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION reporte_cursos_con_porcentaje_de_reprobados(
+	) RETURNS TABLE (
+	   codigo_del_curso integer,
+	   nombre_del_curso varchar(50),
+	   porcentaje_alumnos_reprobados bigint
+	   ) AS $$
+BEGIN
+	RETURN QUERY 
+	SELECT T1.codigo_curso AS codigo_del_curso,
+	T1.nombre_curso AS nombre_del_curso,
+	((T1.cantidad_alumnos_reprobados*100)/T2.cantidad_alumnos) AS porcentaje_alumnos_reprobados
+	FROM 
+	(SELECT curso.codigo AS codigo_curso,
+	curso.nombre AS nombre_curso,
+	COUNT(matricula.codigo_matricula) AS cantidad_alumnos_reprobados
+	FROM instancia_curso, matricula, curso
+	WHERE instancia_curso.ref_curso=curso.codigo	
+	AND instancia_curso.id=matricula.ref_instancia_curso
+	AND matricula.situacion='REPROBADO'
+	GROUP BY (curso.codigo)
+	ORDER BY cantidad_alumnos_reprobados DESC) AS T1,  
+	(SELECT curso.codigo AS codigo_curso,
+	COUNT(matricula.codigo_matricula) AS cantidad_alumnos
+	FROM instancia_curso, matricula, curso
+	WHERE instancia_curso.ref_curso=curso.codigo	
+	AND instancia_curso.id=matricula.ref_instancia_curso
+	GROUP BY (curso.codigo)
+	ORDER BY cantidad_alumnos DESC) AS T2
+	WHERE T1.codigo_curso=T2.codigo_curso;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
 
 
 

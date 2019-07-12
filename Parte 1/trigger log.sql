@@ -43,3 +43,11 @@ FOR EACH ROW EXECUTE FUNCTION proceso_agregar_log()
 CREATE TRIGGER agregar_log_matricula
 AFTER INSERT OR UPDATE OR DELETE ON matricula
 FOR EACH ROW EXECUTE FUNCTION proceso_agregar_log()
+
+CREATE TRIGGER agregar_log_alumno_seguridad
+AFTER INSERT OR UPDATE OR DELETE ON alumno_seguridad
+FOR EACH ROW EXECUTE FUNCTION proceso_agregar_log()
+
+CREATE TRIGGER agregar_log_profesor_seguridad
+AFTER INSERT OR UPDATE OR DELETE ON profesor_seguridad
+FOR EACH ROW EXECUTE FUNCTION proceso_agregar_log()

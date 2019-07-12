@@ -12,6 +12,7 @@ class Evaluacion{
 		this.prorroga = prorroga;
 		this.ref_profesor = ref_profesor;
 		this.ref_instancia_curso = ref_instancia_curso;
+        this.nota = 0;
 	}
 
 	static agregar_evaluacion(evaluacion, callback){
@@ -133,12 +134,33 @@ class Evaluacion{
         db.any('SELECT * FROM lista_evaluaciones_por_instancia_curso_por_alumno($1, $2)', [codigo, matricula]).then(function(results){
             let evaluaciones = [];
             for(const evaluacion of results){
-                evaluaciones.push(new Evaluacion(evaluacion.codigo, evaluacion.fecha, evaluacion.porcentaje, evaluacion.exigible, 
+                let nueva_evaluacion = new Evaluacion(evaluacion.codigo, evaluacion.fecha, evaluacion.porcentaje, evaluacion.exigible, 
                     evaluacion.area, evaluacion.tipo, evaluacion.prorroga,
-                    evaluacion.ref_profesor, evaluacion.ref_instancia_curso));
+                    evaluacion.ref_profesor, evaluacion.ref_instancia_curso);
+
+                nueva_evaluacion.nota = evaluacion.nota;
+
+                evaluaciones.push(nueva_evaluacion);
             }
 
             return callback(null, evaluaciones);
+        })
+        .catch(function(err){
+            return callback(err);
+        })
+    }
+
+    static ingresar_nota(data, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        db.none('CALL modificar_nota($1, $2, $3, $4)',
+            [data.nota,
+            data.ref_evaluacion,
+            data.ref_alumno,
+            data.ref_instancia_curso])
+        .then(function(results){
+            return callback(null, true);
         })
         .catch(function(err){
             return callback(err);

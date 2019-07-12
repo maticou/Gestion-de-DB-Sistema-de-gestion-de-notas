@@ -19,7 +19,8 @@ export class AgregarProfesorComponent implements OnInit {
         nombre: new FormControl(""),
         apellido: new FormControl(""),
         telefono: new FormControl(""),
-        correo: new FormControl("")
+        correo: new FormControl(""),
+        contrasena: new FormControl("")
       });
     }
 

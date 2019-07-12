@@ -95,4 +95,20 @@ export class EvaluacionService {
       })
     );
   }
+
+  ingresarNota(data: any): Observable<Boolean>{
+    const body = new HttpParams()
+    .set('nota', data.nota.toString())
+    .set('ref_alumno', data.ref_alumno.toString())
+    .set('ref_instancia_curso', data.ref_instancia_curso.toString())
+    .set('ref_evaluacion', data.ref_evaluacion.toString())
+
+    return this.http.post<{ msg: string}>(env.api.concat("/evaluacion/ingresarNota"), body)
+    .pipe(
+      map(result => {
+        console.log(result);
+        return true;
+      })
+    );
+  }
 }

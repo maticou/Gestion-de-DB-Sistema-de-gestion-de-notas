@@ -6,7 +6,8 @@ CREATE OR REPLACE FUNCTION consulta_vista_cursos_inscritos_por_alumno(
 		seccion varchar(2),
 		anio integer,
 		semestre tipo_semestre,
-		nombre_profesor_encargado varchar(50)
+		nombre_profesor_encargado varchar(50),
+		situacion situacion_matricula
 	   ) AS $$
 BEGIN
 	RETURN QUERY 
@@ -15,7 +16,8 @@ BEGIN
 	cursos_de_alumno.seccion,
 	cursos_de_alumno.anio,
 	cursos_de_alumno.semestre,
-	cursos_de_alumno.nombre_profesor_encargado
+	cursos_de_alumno.nombre_profesor_encargado,
+	cursos_de_alumno.situacion
 	FROM cursos_de_alumno
 	WHERE cursos_de_alumno.alumno=_matricula_id;
 END;
@@ -32,7 +34,8 @@ BEGIN
 	instancia_curso.anio AS anio,
 	instancia_curso.semestre AS semestre,
 	curso.ref_profesor_encargado AS nombre_profesor_encargado,
-	matricula.ref_alumno AS alumno
+	matricula.ref_alumno AS alumno,
+	matricula.situacion AS situacion
 	FROM matricula, instancia_curso, curso
 	WHERE matricula.ref_instancia_curso=instancia_curso.id
 	AND instancia_curso.ref_curso=curso.codigo

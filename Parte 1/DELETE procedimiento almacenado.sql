@@ -27,10 +27,10 @@ DECLARE
 BEGIN
 	SELECT numero_alumnos_matriculados(_id_instancia) INTO num_alumnos;
 
-	IF(num_alumnos < 10) THEN 
+	IF(num_alumnos = 0) THEN 
 		DELETE FROM instancia_curso WHERE instancia_curso.id = _id_instancia;
 	ELSE
-		RAISE NOTICE 'La instancia tiene mas de 10 alumnos, por lo que no se puede eliminar';
+		RAISE NOTICE 'La instancia tiene alumnos, por lo que no se puede eliminar';
 	END IF;
 END;
 $$ LANGUAGE plpgsql;

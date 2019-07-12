@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const Matricula = require('../modelos/matricula');
+const Alumno = require('../modelos/alumno');
 
 app.put('/matricula/agregar', (req, res) =>{
 	let body = req.body;
@@ -42,6 +43,18 @@ app.get('/matricula/obtener', (req, res) => {
 		}
 
 		return res.json(matriculas);
+	});
+});
+
+app.get('/matricula/instancia/obtenerAlumnos/:id_instancia', (req, res) => {
+	let id_instancia = req.params.id_instancia;
+
+	Alumno.obtener_alumnos_instancia(id_instancia, (err, alumnos) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json(alumnos);
 	});
 });
 

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CursoAlumno } from 'src/app/clases/curso';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { CursoService } from 'src/app/servicios/curso.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cursos',
@@ -15,12 +15,13 @@ export class CursosComponent implements OnInit {
   columnas: string[] = ["nombre", "seccion", "anio", "profesor", "evaluaciones"];
   dataSource: MatTableDataSource<CursoAlumno>;
 
-  constructor(private cursoService: CursoService, public router: Router) { }
+  constructor(private cursoService: CursoService, public router: Router, private route: ActivatedRoute) { }
 
   @ViewChild(MatSort, { read: true, static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { read: true, static: false }) paginator: MatPaginator;
   
   ngOnInit() {
+    this.matricula = parseInt(this.route.snapshot.paramMap.get('matricula'));
     this.obtenerCursos(this.matricula);
     this.dataSource = new MatTableDataSource();
     this.dataSource.sort = this.sort;
@@ -37,8 +38,8 @@ export class CursosComponent implements OnInit {
     });
   }
 
-  verEvaluaciones(codigo: number){
-    this.router.navigate(['vista-alumno/evaluaciones', {codigo: codigo, matricula: this.matricula}]);
+  redirigirAEvaluaciones(id_instancia: number){
+    this.router.navigate(['vista-alumno/evaluaciones/'+ id_instancia + '/'+this.matricula]);
   }
 
 }

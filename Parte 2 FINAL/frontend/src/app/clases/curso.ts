@@ -6,10 +6,10 @@ export class Curso{
 }
 
 export class CursoAlumno{
-    codigo: number;
-    nombre: string;
+    id_instancia: number;
+    nombre_del_curso: string;
     seccion: string;
     anio: string;
     semestre: string;
-    profesor: string;
+    nombre_profesor_encargado: string;
 }

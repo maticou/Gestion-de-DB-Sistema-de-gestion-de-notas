@@ -1,48 +1,54 @@
 <div class="list-container" fxLayout="column" fxLayoutGap="10px">
-    <div fxLayout="row" fxFlex="50" align-items>
-      <div fxFlex="70">
-          <button mat-raised-button (click)="agregarMatricula()"> 
-            <mat-icon>add</mat-icon> Inscribir Alumno
-          </button>
-      </div>
-    </div>
-  
     <div fxFlex="50">
-  
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"> 
-        <ng-container matColumnDef="codigo_matricula">
+        <ng-container matColumnDef="matricula">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Matricula </th>
             <td mat-cell *matCellDef="let element"> {{element.matricula_id}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="ref_alumno">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="nota_final">
+        <ng-container matColumnDef="rut">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Rut </th>
             <td mat-cell *matCellDef="let element"> {{element.rut}} </td>
         </ng-container>
+      
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
 
-        <ng-container matColumnDef="situacion">
+        <ng-container matColumnDef="apellido_paterno">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido Paterno </th>
             <td mat-cell *matCellDef="let element"> {{element.apellido_materno}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="ref_instancia_curso">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido Paterno </th>
+        <ng-container matColumnDef="apellido_materno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido Materno </th>
             <td mat-cell *matCellDef="let element"> {{element.apellido_paterno}} </td>
         </ng-container>
-      
-        <ng-container matColumnDef="detalles">
-          <th mat-header-cell *matHeaderCellDef> Editar </th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary" (click)="modificarMatricula(element.codigo_matricula)">
-                <mat-icon class="mat-18">edit</mat-icon>
-            </button>
-          </td>
+
+        <ng-container matColumnDef="correo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo </th>
+            <td mat-cell *matCellDef="let element"> {{element.correo}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="telefono">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </th>
+            <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="evaluaciones">
+            <th mat-header-cell *matHeaderCellDef> Evaluaciones </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn" (click)="redirigirAEvaluacionesAlumno(element.matricula_id)">
+                  <mat-icon class="mat-18">receipt</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
         <ng-container matColumnDef="eliminar">
           <th mat-header-cell *matHeaderCellDef> Eliminar </th>

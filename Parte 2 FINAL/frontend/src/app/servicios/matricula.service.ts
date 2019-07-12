@@ -4,6 +4,7 @@ import { environment as env } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Observable } from "rxjs";
 import { Matricula } from '../clases/matricula';
+import { Alumno } from '../clases/alumno';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,15 @@ export class MatriculaService {
       map(result => {
         console.log(result.msg);
         return true;
+      })
+    );
+  }
+
+  obtenerAlumnosInstancia(id_instancia : number): Observable<Alumno[]>{
+    return this.http.get<Alumno[]>(env.api.concat("/matricula/instancia/obtenerAlumnos/"+id_instancia))
+    .pipe(
+      map(result => {
+        return result;
       })
     );
   }

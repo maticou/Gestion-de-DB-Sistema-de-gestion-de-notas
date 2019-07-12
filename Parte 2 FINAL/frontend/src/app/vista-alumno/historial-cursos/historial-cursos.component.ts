@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { CursoAlumno } from 'src/app/clases/curso';
 import { CursoService } from 'src/app/servicios/curso.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-historial-cursos',
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class HistorialCursosComponent implements OnInit {
 
   matricula: number;
+  id_instancia: number;
   columnas: string[] = ["nombre", "seccion", "anio", "profesor", "evaluaciones"];
   dataSource: MatTableDataSource<CursoAlumno>;
 
@@ -38,6 +39,6 @@ export class HistorialCursosComponent implements OnInit {
   }
 
   verEvaluaciones(codigo: number){
-    this.router.navigate(['vista-alumno/evaluaciones', {codigo: codigo, matricula: this.matricula}]);
+    this.router.navigate(['vista-alumno/evaluaciones/'+codigo+'/'+this.matricula]);
   }
 }

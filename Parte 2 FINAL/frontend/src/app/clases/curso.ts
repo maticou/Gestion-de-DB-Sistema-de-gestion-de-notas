@@ -12,4 +12,6 @@ export class CursoAlumno{
     anio: string;
     semestre: string;
     nombre_profesor_encargado: string;
+    nota_final: number;
+    situacion: number;
 }

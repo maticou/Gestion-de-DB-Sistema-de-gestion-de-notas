@@ -1,13 +1,15 @@
 const db = require('../common/postgres');
 
 class CursoAlumno{
-	constructor(id_instancia, nombre_del_curso, seccion, anio, semestre, nombre_profesor_encargado){
+	constructor(id_instancia, nombre_del_curso, seccion, anio, semestre, nombre_profesor_encargado, nota_final, situacion){
 		this.id_instancia = id_instancia;
 		this.nombre_del_curso = nombre_del_curso;
 		this.seccion = seccion;
 		this.anio = anio;
 		this.semestre = semestre;
 		this.nombre_profesor_encargado = nombre_profesor_encargado;
+        this.nota_final = nota_final;
+        this.situacion = situacion;
 	}
 
 	static obtener_cursos_alumno(matricula, callback){
@@ -18,7 +20,7 @@ class CursoAlumno{
         	let cursos = [];
         	for(const curso of results){
         		cursos.push(new CursoAlumno(curso.id_instancia, curso.nombre_del_curso, 
-        			curso.seccion, curso.anio, curso.semestre, curso.nombre_profesor_encargado));
+        			curso.seccion, curso.anio, curso.semestre, curso.nombre_profesor_encargado, curso.situacion, curso.nota_final));
         	}
 
         	return callback(null, cursos);

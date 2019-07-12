@@ -12,7 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class CursosComponent implements OnInit {
   matricula: number;
 
-  columnas: string[] = ["nombre", "seccion", "anio", "profesor", "evaluaciones"];
+  columnas: string[] = ["nombre", "seccion", "anio", "profesor", "nota_final", "situacion","evaluaciones"];
   dataSource: MatTableDataSource<CursoAlumno>;
 
   constructor(private cursoService: CursoService, public router: Router, private route: ActivatedRoute) { }

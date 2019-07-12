@@ -20,12 +20,22 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Profesor Encargado </th>
             <td mat-cell *matCellDef="let element"> {{element.nombre_profesor_encargado}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="nota_final">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nota</th>
+          <td mat-cell *matCellDef="let element"> {{element.nota_final}} </td>
+        </ng-container>
       
+        <ng-container matColumnDef="situacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Situación</th>
+          <td mat-cell *matCellDef="let element"> {{element.situacion}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="evaluaciones">
           <th mat-header-cell *matHeaderCellDef> Evaluaciones </th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="primary" (click)="redirigirAEvaluaciones(element.id_instancia)">
-                <mat-icon class="mat-18">edit</mat-icon>
+                <mat-icon class="mat-18">receipt</mat-icon>
             </button>
           </td>
         </ng-container>

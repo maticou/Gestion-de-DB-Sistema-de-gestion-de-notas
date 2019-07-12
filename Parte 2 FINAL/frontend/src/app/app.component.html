@@ -18,6 +18,21 @@
                 mat-list-item>
                 Profesores
             </a>
+
+            <a [routerLink]="['admin/reportes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+                mat-list-item>
+                Reportes
+            </a>
+
+            <a [routerLink]="['vista-alumno/2013407015']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+                mat-list-item>
+                Vista Alumno
+            </a>
+
+            <a [routerLink]="['vista-profesor/11765740-k']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+                mat-list-item>
+                Vista Profesor
+            </a>
             </mat-nav-list>
     </mat-sidenav>
 

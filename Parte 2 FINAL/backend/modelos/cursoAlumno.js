@@ -20,7 +20,7 @@ class CursoAlumno{
         	let cursos = [];
         	for(const curso of results){
         		cursos.push(new CursoAlumno(curso.id_instancia, curso.nombre_del_curso, 
-        			curso.seccion, curso.anio, curso.semestre, curso.nombre_profesor_encargado, curso.situacion, curso.nota_final));
+        			curso.seccion, curso.anio, curso.semestre, curso.nombre_profesor_encargado, curso.nota_final, curso.situacion));
         	}
 
         	return callback(null, cursos);

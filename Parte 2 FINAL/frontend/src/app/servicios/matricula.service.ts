@@ -40,4 +40,18 @@ export class MatriculaService {
       })
     );
   }
+
+  calcularNotaFinal(matricula: number, id_curso: number): Observable<Boolean>{
+    const body = new HttpParams()
+    .set('id_alumno', matricula.toString())
+    .set('id_instancia_curso', id_curso.toString())
+
+    return this.http.post<{ msg: string}>(env.api.concat("/matricula/calcularNota"), body)
+    .pipe(
+      map(result => {
+        console.log(result.msg);
+        return true;
+      })
+    );
+  }
 }

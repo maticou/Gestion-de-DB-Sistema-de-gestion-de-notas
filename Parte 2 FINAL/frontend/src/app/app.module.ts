@@ -32,7 +32,8 @@ import { ModificarProfesorComponent } from './componentes/profesor/modificar-pro
 import { CursosComponent } from './vista-alumno/cursos/cursos.component';
 import { HistorialCursosComponent } from './vista-alumno/historial-cursos/historial-cursos.component';
 import { EvaluacionesComponent } from './vista-alumno/evaluaciones/evaluaciones.component';
-import { CursosProfesorComponent } from './vista-profesor/cursos-profesor/cursos-profesor.component'; 
+import { CursosProfesorComponent } from './vista-profesor/cursos-profesor/cursos-profesor.component';
+import { LoginComponent } from './login/login/login.component'; 
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { CursosProfesorComponent } from './vista-profesor/cursos-profesor/cursos
     CursosComponent,
     HistorialCursosComponent,
     EvaluacionesComponent,
-    CursosProfesorComponent
+    CursosProfesorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

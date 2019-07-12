@@ -161,10 +161,13 @@ BEGIN
 		instancia_evaluacion.nota AS nota
 	FROM evaluacion, instancia_curso, matricula, instancia_evaluacion
 	WHERE evaluacion.ref_instancia_curso=instancia_curso.id
+	AND instancia_curso.id= _id
 	AND evaluacion.ref_instancia_curso=_id
+	AND instancia_evaluacion.ref_instancia_curso=_id
 	AND matricula.ref_instancia_curso=_id
 	AND instancia_evaluacion.ref_evaluacion=evaluacion.codigo
-	AND matricula.ref_alumno=_matricula_id;
+	AND matricula.ref_alumno=_matricula_id
+	AND instancia_evaluacion.ref_alumno=_matricula_id;
 END;
 $$ LANGUAGE plpgsql;
 

@@ -88,7 +88,7 @@ export class EvaluacionService {
   }
 
   evaluacionesAlumno(codigo: number, matricula: number){
-    return this.http.get<Evaluacion[]>(env.api.concat("/evaluacion/obtener/evaluaciones?codigo="+codigo+"&matricula="+matricula))
+    return this.http.get<Evaluacion[]>(env.api.concat("/evaluacion/obtener/evaluacionesAlumno/"+codigo+"/"+matricula))
     .pipe(
       map(result => {
         return result;

@@ -125,6 +125,25 @@ class Evaluacion{
             return callback(err);
         })
     }
+
+    static evaluaciones_alumno_curso(codigo, matricula, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        db.any('SELECT * FROM lista_evaluaciones_por_instancia_curso_por_alumno($1, $2)', [codigo, matricula]).then(function(results){
+            let evaluaciones = [];
+            for(const evaluacion of results){
+                evaluaciones.push(new Evaluacion(evaluacion.codigo, evaluacion.fecha, evaluacion.porcentaje, evaluacion.exigible, 
+                    evaluacion.area, evaluacion.tipo, evaluacion.prorroga,
+                    evaluacion.ref_profesor, evaluacion.ref_instancia_curso));
+            }
+
+            return callback(null, evaluaciones);
+        })
+        .catch(function(err){
+            return callback(err);
+        })
+    }
 }
 
 module.exports = Evaluacion;

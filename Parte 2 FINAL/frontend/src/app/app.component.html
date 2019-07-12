@@ -1,1 +1,27 @@
-<router-outlet></router-outlet>
+<mat-toolbar class="example-header">Registro Notas</mat-toolbar>
+
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="side" opened class="example-sidenav">
+        <mat-nav-list class="list">
+            <a [routerLink]="['admin/curso']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+                mat-list-item>
+                Cursos
+            </a>
+
+            <a [routerLink]="['admin/alumno']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+                mat-list-item>
+                Alumnos
+            </a>
+            
+
+            <a [routerLink]="['admin/profesor']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+                mat-list-item>
+                Profesores
+            </a>
+            </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+            <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

@@ -99,6 +99,24 @@ class Alumno{
             return callback(err);
         })
     }
+
+    static obtener_alumnos_instancia(id_instancia, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        db.any('SELECT * FROM lista_alumnos_en_instancia_curso($1)', id_instancia).then(function(results){
+            let alumnos = [];
+            for(const alumno of results){
+                alumnos.push(new Alumno(alumno.matricula, alumno.rut, alumno.nombre_alumno, alumno.apellido_paterno,
+                    alumno.apellido_materno, alumno.correo_alumno, alumno.telefono_alumno, alumno.estado_alumno));
+            }
+
+            return callback(null, alumnos);
+        })
+        .catch(function(err){
+            return callback(err);
+        })
+    }
 }
 
 module.exports = Alumno;

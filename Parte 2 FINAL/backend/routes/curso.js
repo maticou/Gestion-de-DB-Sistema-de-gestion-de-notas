@@ -59,6 +59,18 @@ app.get('/curso/obtener/cursos-alumno/:matricula', (req, res) => {
 	});
 });
 
+app.get('/curso/obtener/cursos-profesor/:rut', (req, res) => {
+	let rut = req.params.rut;
+
+	CursoAlumno.obtener_cursos_profesor(rut, (err, cursos) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json(cursos);
+	});
+});
+
 app.get('/curso/obtener/:codigo', (req, res) => {
 	let codigo = req.params.codigo;
 

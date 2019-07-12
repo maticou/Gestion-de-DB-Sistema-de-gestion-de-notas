@@ -63,7 +63,16 @@ export class CursoService {
   }
 
   obtenerVistaCursos(matricula: number): Observable<CursoAlumno[]>{
-    return this.http.get<CursoAlumno[]>(env.api.concat("/cursoAlumno/obtener/cursos-alumno/"+matricula))
+    return this.http.get<CursoAlumno[]>(env.api.concat("/curso/obtener/cursos-alumno/"+matricula))
+    .pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+
+  obtenerVistaCursosProfesor(rut: string): Observable<CursoAlumno[]>{
+    return this.http.get<CursoAlumno[]>(env.api.concat("/curso/obtener/cursos-profesor/"+rut))
     .pipe(
       map(result => {
         return result;

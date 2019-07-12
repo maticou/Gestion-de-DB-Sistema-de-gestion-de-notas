@@ -71,4 +71,17 @@ app.get('/evaluacion/obtener/:codigo', (req, res) => {
 	});
 });
 
+app.get('/evaluacion/obtener/evaluacionesAlumno/:codigo/:matricula', (req, res) => {
+	let codigo = req.params.codigo;
+	let matricula = req.params.matricula;
+
+	Evaluacion.evaluaciones_alumno_curso(codigo, matricula, (err, evaluaciones) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json(evaluaciones);
+	});
+});
+
 module.exports = app;

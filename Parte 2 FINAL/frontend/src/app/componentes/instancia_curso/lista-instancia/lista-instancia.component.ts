@@ -14,7 +14,7 @@ import { AgregarMatriculaComponent } from '../../matricula/agregar-matricula/agr
 })
 export class ListaInstanciaComponent implements OnInit {
   id_curso : number;
-  columnas: string[] = ["id", "seccion", "anio", "semestre", "ref_profesor", "evaluaciones", "matricula","detalles", "eliminar"];
+  columnas: string[] = ["id", "seccion", "anio", "semestre", "ref_profesor", "evaluaciones", "alumnos","matricula","detalles", "eliminar"];
   dataSource: MatTableDataSource<Instancia_curso>;
 
   constructor(private cursoService: CursoService, private dialog: MatDialog, public router: Router, private route: ActivatedRoute) { }
@@ -107,6 +107,10 @@ export class ListaInstanciaComponent implements OnInit {
 
   redirigirAEvaluaciones(codigo: number){
     this.router.navigate(['admin/instancia/evaluaciones/', codigo]);
+  }
+
+  redirigirAMatriculas(codigo: number){
+    this.router.navigate(['admin/instancia/alumnos/', codigo]);
   }
 
 }

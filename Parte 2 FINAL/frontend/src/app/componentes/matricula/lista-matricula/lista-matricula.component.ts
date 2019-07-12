@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ListaMatriculaComponent implements OnInit {
 
   id_curso: number;
-  columnas: string[] = ["matricula", "rut", "nombre", "apellido_paterno", "apellido_materno","correo","telefono","estado","evaluaciones","eliminar"];
+  columnas: string[] = ["matricula", "rut", "nombre", "apellido_paterno", "apellido_materno","correo","telefono","estado","evaluaciones","nota_final","eliminar"];
   dataSource: MatTableDataSource<Alumno>;
 
   constructor(private matriculaService: MatriculaService, private dialog: MatDialog, public router: Router, private route: ActivatedRoute) { }
@@ -38,5 +38,12 @@ export class ListaMatriculaComponent implements OnInit {
 
   redirigirAEvaluacionesAlumno(matricula: number){
     this.router.navigate(['vista-alumno/evaluaciones/'+ this.id_curso + '/'+matricula]);
+  }
+
+  calcularNotaFinal(matricula_id: number){
+    this.matriculaService.calcularNotaFinal(matricula_id, this.id_curso).subscribe({
+      next: (result) => {console.log(result);},
+      error: (err) => {console.log(err)}
+    });
   }
 }

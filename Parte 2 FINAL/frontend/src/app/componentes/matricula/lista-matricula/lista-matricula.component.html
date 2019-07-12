@@ -42,13 +42,22 @@
         </ng-container>
 
         <ng-container matColumnDef="evaluaciones">
-            <th mat-header-cell *matHeaderCellDef> Evaluaciones </th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-icon-button color="warn" (click)="redirigirAEvaluacionesAlumno(element.matricula_id)">
-                  <mat-icon class="mat-18">receipt</mat-icon>
-              </button>
-            </td>
-          </ng-container>
+          <th mat-header-cell *matHeaderCellDef> Evaluaciones </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="redirigirAEvaluacionesAlumno(element.matricula_id)">
+                <mat-icon class="mat-18">receipt</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nota_final">
+          <th mat-header-cell *matHeaderCellDef> Nota Final </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="calcularNotaFinal(element.matricula_id)">
+                <mat-icon class="mat-18">publish</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
         <ng-container matColumnDef="eliminar">
           <th mat-header-cell *matHeaderCellDef> Eliminar </th>

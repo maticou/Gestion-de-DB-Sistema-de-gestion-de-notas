@@ -58,4 +58,19 @@ app.get('/matricula/instancia/obtenerAlumnos/:id_instancia', (req, res) => {
 	});
 });
 
+app.post('/matricula/calcularNota', (req, res) => {
+	let body = req.body;
+	let data = { id_alumno: body.id_alumno, id_instancia_curso: body.id_instancia_curso}
+
+	Matricula.calcular_nota_final(data, (err, results) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json({
+			mensaje: "Se ha calculado la nota final correctamente"
+		});
+	});
+})
+
 module.exports = app;

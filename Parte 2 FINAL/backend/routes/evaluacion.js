@@ -84,4 +84,26 @@ app.get('/evaluacion/obtener/evaluacionesAlumno/:codigo/:matricula', (req, res) 
 	});
 });
 
+var Data = function(nota, ref_evaluacion, ref_alumno, ref_instancia_curso) {
+  this.nota = nota;
+  this.ref_evaluacion = ref_evaluacion;
+  this.ref_alumno = ref_alumno;
+  this.ref_instancia_curso = ref_instancia_curso;
+}
+
+app.post('/evaluacion/ingresarNota', (req, res) => {
+	let body = req.body;
+	var data = { nota: body.nota, ref_evaluacion: body.ref_evaluacion, ref_alumno: body.ref_alumno, ref_instancia_curso: body.ref_instancia_curso} ;
+	console.log(data);
+	Evaluacion.ingresar_nota(data, (err, results) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json({
+			mensaje: "La evaluacion se ha modificado correctamente"
+		});
+	});
+});
+
 module.exports = app;

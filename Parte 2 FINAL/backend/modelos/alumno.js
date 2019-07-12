@@ -10,20 +10,22 @@ class Alumno{
 		this.correo = correo;
 		this.telefono = telefono;
 		this.estado = estado;
+        this.contrasena = '';
 	}
 
 	static agregar_alumno(alumno, callback){
 		if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        db.none('CALL agregar_alumno($1, $2, $3, $4, $5, $6, $7)', 
+        db.none('CALL agregar_alumno($1, $2, $3, $4, $5, $6, $7, $8)', 
         	[alumno.matricula_id,
         	alumno.rut,
         	alumno.nombre,
         	alumno.apellido_paterno,
         	alumno.apellido_materno,
         	alumno.correo,
-        	alumno.telefono])
+        	alumno.telefono,
+            alumno.contrasena])
         .then(function(err, results, fields){
         	return callback(null, true)
     	})

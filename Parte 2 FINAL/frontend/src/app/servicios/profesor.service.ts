@@ -12,13 +12,14 @@ export class ProfesorService {
 
   constructor(private http: HttpClient) { }
 
-  agregarProfesor(data: Profesor): Observable<boolean>{
+  agregarProfesor(data: any): Observable<boolean>{
     const body = new HttpParams()
     .set('rut', data.rut)
     .set('nombre', data.nombre)
     .set('apellido', data.apellido)
     .set('correo', data.correo)
     .set('telefono', data.telefono)
+    .set('contrasena', data.contrasena)
 
     console.log(body);
     return this.http.put<{ msg: string}>(env.api.concat("/profesor/agregar"), body)

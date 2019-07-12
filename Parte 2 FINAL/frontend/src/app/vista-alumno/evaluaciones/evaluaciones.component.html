@@ -25,6 +25,15 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Nota </th>
             <td mat-cell *matCellDef="let element"> {{element.nota}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="subir_nota">
+            <th mat-header-cell *matHeaderCellDef> Ingresar Nota </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="ingresarNota(element.codigo)">
+                  <mat-icon class="mat-18">edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
         
         <tr mat-header-row *matHeaderRowDef="columnas"></tr>
         <tr mat-row *matRowDef="let row; columns: columnas;"></tr>

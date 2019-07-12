@@ -8,6 +8,7 @@ class Profesor{
 		this.correo = correo;
 		this.telefono = telefono;
 		this.estado = estado;
+        this.contrasena = '';
 	}
 
 	static obtener_profesores(callback){
@@ -44,12 +45,13 @@ class Profesor{
 		if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        db.none('CALL registrar_profesor($1, $2, $3, $4, $5)', 
+        db.none('CALL registrar_profesor($1, $2, $3, $4, $5, $6)', 
         	[profesor.rut,
         	profesor.nombre,
         	profesor.apellido,
         	profesor.correo,
-        	profesor.telefono])
+        	profesor.telefono,
+            profesor.contrasena])
         .then(function(err, results, fields){
         	return callback(null, true)
     	})

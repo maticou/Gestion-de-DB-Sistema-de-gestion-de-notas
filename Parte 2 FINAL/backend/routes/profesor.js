@@ -7,6 +7,7 @@ app.put('/profesor/agregar', (req, res) =>{
 	let body = req.body;
 	let nuevo_profesor = new Profesor(body.rut, body.nombre, body.apellido, 
 		body.correo, body.telefono);
+	nuevo_profesor.contrasena = body.contrasena;
 
 	Profesor.agregar_profesor(nuevo_profesor, (err, result) =>{
 		if(err){

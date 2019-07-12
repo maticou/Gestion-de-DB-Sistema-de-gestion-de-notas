@@ -21,7 +21,9 @@ export class AgregarAlumnoComponent implements OnInit {
         apellido_materno: new FormControl(""),
         matricula_id: new FormControl(""),
         correo: new FormControl(""),
-        telefono: new FormControl("")
+        telefono: new FormControl(""),
+        contrasena: new FormControl(""),
+
       });
     }
 

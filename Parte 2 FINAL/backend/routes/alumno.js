@@ -7,7 +7,8 @@ app.put('/alumno/agregar', (req, res) =>{
 	let body = req.body;
 	let nuevo_alumno = new Alumno(body.matricula_id, body.rut, body.nombre, body.apellido_paterno, 
 		body.apellido_materno, body.correo, body.telefono);
-
+	nuevo_alumno.contrasena = body.contrasena;
+	
 	Alumno.agregar_alumno(nuevo_alumno, (err, result) =>{
 		if(err){
 			return res.status(400).json(err);

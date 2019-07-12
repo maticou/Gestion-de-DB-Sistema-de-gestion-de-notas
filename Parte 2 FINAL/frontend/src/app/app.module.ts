@@ -33,7 +33,9 @@ import { CursosComponent } from './vista-alumno/cursos/cursos.component';
 import { HistorialCursosComponent } from './vista-alumno/historial-cursos/historial-cursos.component';
 import { EvaluacionesComponent } from './vista-alumno/evaluaciones/evaluaciones.component';
 import { CursosProfesorComponent } from './vista-profesor/cursos-profesor/cursos-profesor.component';
-import { LoginComponent } from './login/login/login.component'; 
+import { LoginComponent } from './login/login/login.component';
+import { ReportesComponent } from './componentes/reportes/reportes.component';
+import { IngresarNotaComponent } from './vista-profesor/ingresar-nota/ingresar-nota.component'; 
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { LoginComponent } from './login/login/login.component';
     HistorialCursosComponent,
     EvaluacionesComponent,
     CursosProfesorComponent,
-    LoginComponent
+    LoginComponent,
+    ReportesComponent,
+    IngresarNotaComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +89,8 @@ import { LoginComponent } from './login/login/login.component';
     AgregarInstanciaComponent,
     ModificarInstanciaComponent,
     AgregarMatriculaComponent,
-    ModificarMatriculaComponent
+    ModificarMatriculaComponent,
+    IngresarNotaComponent
   ],
   bootstrap: [AppComponent]
 })

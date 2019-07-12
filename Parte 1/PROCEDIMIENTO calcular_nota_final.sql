@@ -1,5 +1,5 @@
 CREATE OR REPLACE PROCEDURE calcular_nota_final(id_alumno integer,
- nombre_curso varchar(50), periodo_curso integer)
+id_instancia_curso integer)
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -7,18 +7,8 @@ DECLARE
 	id_curso INTEGER default 0;
 	valor_verificar_situacion INTEGER default 0;
 BEGIN
-	SELECT DISTINCT instancia_curso.id
-	FROM alumno, instancia_curso, evaluacion, curso, instancia_evaluacion
-	WHERE alumno.matricula_id=instancia_evaluacion.ref_alumno
-	AND instancia_evaluacion.ref_evaluacion=evaluacion.codigo		
-	AND evaluacion.ref_instancia_curso=instancia_curso.id
-	AND instancia_curso.ref_curso=curso.codigo 
-	AND curso.nombre=nombre_curso		
-	AND instancia_curso.periodo=periodo_curso
-	AND alumno.matricula_id=id_alumno INTO id_curso;
-
-	IF ((SELECT cursor_verificar_porcentaje(id_curso)) = 1) THEN	
-		IF (SELECT verificar_instancia_evaluacion(id_curso, id_alumno)) THEN						
+	IF ((SELECT cursor_verificar_porcentaje(id_instancia_curso)) = 1) THEN	
+		IF (SELECT verificar_instancia_evaluacion(id_instancia_curso, id_alumno)) THEN						
 			SELECT SUM(T2.nota) AS Promedio_final
 			FROM (SELECT ((T1.evaluacion * T1.porcentaje)/100) AS nota
 				FROM (
@@ -26,9 +16,8 @@ BEGIN
 					alumno.nombre AS alumno, curso.nombre AS curso, 
 					seccion, nota AS evaluacion, porcentaje
 					FROM alumno, instancia_curso, evaluacion, curso, instancia_evaluacion
-					WHERE alumno.matricula_id=id_alumno
-					AND curso.nombre=nombre_curso			
-					AND instancia_curso.periodo=periodo_curso			
+					WHERE alumno.matricula_id=id_alumno			
+					AND instancia_curso.id=id_instancia_curso			
 					AND alumno.matricula_id=instancia_evaluacion.ref_alumno
 					AND instancia_evaluacion.ref_evaluacion=evaluacion.codigo
 					AND evaluacion.ref_instancia_curso=instancia_curso.id
@@ -36,25 +25,25 @@ BEGIN
 
 			IF (promedio_final > 39) THEN
 				SELECT cursor_verificar_situacion(
-					id_alumno,id_curso) INTO valor_verificar_situacion;
+					id_alumno,id_instancia_curso) INTO valor_verificar_situacion;
 				IF (valor_verificar_situacion = 1) THEN
 					UPDATE matricula
 					SET nota_final=39, situacion='REPROBADO'
 					WHERE matricula.ref_alumno=id_alumno 
-					AND matricula.ref_instancia_curso=id_curso;
-					RAISE NOTICE 'Alumno reprovado porque una evaluación exigible tiene nota menor a 40, se le modifica el promedio a nota 39';
+					AND matricula.ref_instancia_curso=id_instancia_curso;
+					RAISE NOTICE 'Alumno reprobado porque una evaluación exigible tiene nota menor a 40, se le modifica el promedio a nota 39';
 				ELSE
 					UPDATE matricula
 					SET nota_final=promedio_final, situacion='APROBADO'
 					WHERE matricula.ref_alumno=id_alumno 
-					AND matricula.ref_instancia_curso=id_curso;
+					AND matricula.ref_instancia_curso=id_instancia_curso;
 					RAISE NOTICE 'Alumno aprobado con nota %', promedio_final;
 				END IF;
 			ELSE
 				UPDATE matricula
 				SET nota_final=promedio_final, situacion='REPROBADO'
 				WHERE matricula.ref_alumno=id_alumno 
-				AND matricula.ref_instancia_curso=id_curso;
+				AND matricula.ref_instancia_curso=id_instancia_curso;
 				RAISE NOTICE 'Alumno reprobado con promedio %', promedio_final;
 			END IF;			
 		ELSE

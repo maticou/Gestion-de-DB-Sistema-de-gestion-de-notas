@@ -11,6 +11,14 @@ CREATE TABLE alumno
 	PRIMARY KEY (matricula_id)	
 );
 
+CREATE TABLE alumno_seguridad
+(
+	alumno_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+	contrasena varchar(20) NOT NULL DEFAULT '123456',
+	ref_alumno integer REFERENCES alumno(matricula_id),
+	PRIMARY KEY (alumno_id)	
+);
+
 CREATE TABLE profesor
 (	
 	rut varchar(12) NOT NULL,
@@ -20,6 +28,14 @@ CREATE TABLE profesor
 	telefono varchar(15) NOT NULL,
 	estado integer DEFAULT 1 NOT NULL,
 	PRIMARY KEY (rut)
+);
+
+CREATE TABLE profesor_seguridad
+(
+	profesor_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+	contrasena varchar(20) NOT NULL DEFAULT '123456',
+	ref_profesor varchar(12) REFERENCES profesor(rut),
+	PRIMARY KEY (profesor_id)	
 );
 
 CREATE TABLE curso

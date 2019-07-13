@@ -246,20 +246,20 @@ CREATE OR REPLACE FUNCTION reporte_profesores_con_numero_de_aprobados(
 	   rut varchar(12),
 	   nombre_profesor varchar(50),
 	   apellido varchar(50),
-	   cantidad_alumnos_reprobados bigint
+	   cantidad_alumnos_aprobados bigint
 	   ) AS $$
 BEGIN
 	RETURN QUERY 
 	SELECT profesor.rut AS rut,
 	profesor.nombre AS nombre_profesor,
 	profesor.apellido AS apellido,
-	COUNT(matricula.codigo_matricula) AS cantidad_alumnos_reprobados
+	COUNT(matricula.codigo_matricula) AS cantidad_alumnos_aprobados
 	FROM profesor, instancia_curso, matricula
 	WHERE profesor.rut=instancia_curso.ref_profesor	
 	AND instancia_curso.id=matricula.ref_instancia_curso
 	AND matricula.situacion='APROBADO'
 	GROUP BY (profesor.rut)
-	ORDER BY cantidad_alumnos_reprobados DESC;
+	ORDER BY cantidad_alumnos_aprobados DESC;
 END;
 $$ LANGUAGE plpgsql;
 

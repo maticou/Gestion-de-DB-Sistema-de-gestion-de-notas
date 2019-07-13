@@ -114,3 +114,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+
+CREATE OR REPLACE FUNCTION nota_final_alumno_en_instancia_curso(
+	IN _matricula integer,
+	IN _id_instancia integer
+) RETURNS INTEGER AS $$
+DECLARE
+	nota_final_alumno INTEGER default 0;
+BEGIN
+	SELECT matricula.nota_final AS nota_final
+	FROM matricula
+	WHERE matricula.ref_alumno=_matricula
+	AND matricula.ref_instancia_curso=_id_instancia INTO nota_final_alumno;
+
+	IF (nota_final_alumno > 9) THEN
+		RAISE NOTICE 'La nota final del alumno es %', nota_final_alumno;
+		RETURN nota_final_alumno;
+	ELSE
+		RAISE NOTICE 'El alumno no tiene notas';
+		RETURN 0;
+	END IF;	
+END;
+$$ LANGUAGE plpgsql;
+

@@ -11,11 +11,19 @@ CREATE OR REPLACE PROCEDURE agregar_alumno(
 	IN _clave VARCHAR(20)
 ) AS $$
 BEGIN
-  INSERT INTO alumno (matricula_id, rut, nombre, apellido_paterno, apellido_materno, correo,telefono) 
-  VALUES (_matricula, _rut, _nombre, _apellido_paterno, _apellido_materno, _correo, _telefono);
+	IF (_matricula < 2147483000) THEN
+		IF (_matricula > 0) THEN
+			INSERT INTO alumno (matricula_id, rut, nombre, apellido_paterno, apellido_materno, correo,telefono) 
+			VALUES (_matricula, _rut, _nombre, _apellido_paterno, _apellido_materno, _correo, _telefono);
 
-  INSERT INTO alumno_seguridad (contrasena, ref_alumno) 
-  VALUES (_clave, _matricula);
+			INSERT INTO alumno_seguridad (contrasena, ref_alumno) 
+			VALUES (_clave, _matricula);
+		ELSE
+			RAISE NOTICE 'El número de la matrícula no puede ser inferior a 1';
+		END IF;		
+	ELSE
+		RAISE NOTICE 'El número de la matrícula no puede superar el valor de 2147483000';
+	END IF;	  
 END;
 $$ LANGUAGE plpgsql;
 

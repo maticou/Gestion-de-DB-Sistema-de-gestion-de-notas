@@ -1,0 +1,36 @@
+<div>
+        <h2 mat-dialog-title>Modificar Curso</h2>
+        <hr />
+        <mat-dialog-content>
+          <form [formGroup]="form">
+            <div class="container">
+                <mat-form-field appearance="standard">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="" formControlName="nombre" maxlength="30"/>
+                </mat-form-field>
+            </div>
+    
+            <div class="container">
+                <mat-form-field appearance="standard">
+                    <mat-label>Carrera</mat-label>
+                    <input matInput placeholder="" formControlName="carrera" maxlength="30" />
+                </mat-form-field>
+            </div>
+    
+            <div class="container">
+                <mat-form-field appearance="standard">
+                    <mat-label>Profesor Encargado</mat-label>
+                    <input matInput placeholder="" formControlName="ref_profesor_encargado" maxlength="10"/>
+                </mat-form-field>
+            </div>
+    
+          </form>
+        </mat-dialog-content>
+        <hr />
+        <mat-dialog-actions>
+          <button mat-raised-button (click)="onCloseConfirm()" [disabled]="form.invalid">Agregar</button>
+          <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+        </mat-dialog-actions>
+      </div>
+    
+    

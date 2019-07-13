@@ -7,7 +7,8 @@ app.put('/alumno/agregar', (req, res) =>{
 	let body = req.body;
 	let nuevo_alumno = new Alumno(body.matricula_id, body.rut, body.nombre, body.apellido_paterno, 
 		body.apellido_materno, body.correo, body.telefono);
-
+	nuevo_alumno.contrasena = body.contrasena;
+	
 	Alumno.agregar_alumno(nuevo_alumno, (err, result) =>{
 		if(err){
 			return res.status(400).json(err);
@@ -17,6 +18,17 @@ app.put('/alumno/agregar', (req, res) =>{
 			mensaje: "El alumno se ha agregado correctamente"
 		});
 	});
+});
+
+app.get('/alumno/obtener/:matricula', (req, res) => {
+	let matricula = req.params.matricula;
+
+    Alumno.obtener_alumno(matricula, (err, alumno) => {
+    	if(err){
+    		return res.status(400).json(err);
+    	}
+    	return res.json(alumno);
+    })
 });
 
 app.post('/alumno/eliminar/:matricula_id', (req, res) =>{

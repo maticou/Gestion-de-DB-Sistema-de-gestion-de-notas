@@ -1,1 +1,65 @@
-<p>agregar-alumno works!</p>
+<div>
+    <h2 mat-dialog-title>Agregar Alumno</h2>
+    <hr />
+    <mat-dialog-content>
+      <form [formGroup]="form">
+        <div class="form-div">
+            <mat-form-field appearance="standard" class="input">
+              <mat-label>Rut</mat-label>
+              <input matInput placeholder="11111111-1" formControlName="rut"  maxlength="10"/>
+            </mat-form-field>
+  
+            <mat-form-field appearance="standard" class="input">
+              <mat-label>Nombre</mat-label>
+              <input matInput placeholder="" formControlName="nombre" maxlength="30"/>
+            </mat-form-field>
+        </div>
+  
+        <div class="form-div">
+          <mat-form-field appearance="standard" class="input">
+            <mat-label>Apellido Paterno</mat-label>
+            <input matInput placeholder="" formControlName="apellido_paterno" maxlength="30" />
+          </mat-form-field>
+  
+          <mat-form-field appearance="standard" class="input">
+            <mat-label>Apellido Materno</mat-label>
+            <input matInput placeholder="" formControlName="apellido_materno" maxlength="30"/>
+          </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Matrícula</mat-label>
+                <input matInput placeholder="2013407015" formControlName="matricula_id" maxlength="10"/>
+            </mat-form-field>
+        </div>
+  
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput placeholder="ejemplo@alumnos.utalca.cl" formControlName="correo" maxlength="100"/>
+          </mat-form-field>
+        </div>
+
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Teléfono</mat-label>
+                <input matInput placeholder="912345678" formControlName="telefono" maxlength="9"/>
+            </mat-form-field>
+        </div>
+
+        <div class="container">
+          <mat-form-field appearance="standard">
+              <mat-label>Contraseña</mat-label>
+              <input matInput placeholder="" formControlName="contrasena" maxlength="30"/>
+          </mat-form-field>
+      </div>
+
+      </form>
+    </mat-dialog-content>
+    <hr />
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="onCloseConfirm()" [disabled]="form.invalid">Agregar</button>
+      <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+    </mat-dialog-actions>
+  </div>

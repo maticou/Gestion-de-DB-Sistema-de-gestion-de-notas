@@ -7,8 +7,9 @@ app.put('/profesor/agregar', (req, res) =>{
 	let body = req.body;
 	let nuevo_profesor = new Profesor(body.rut, body.nombre, body.apellido, 
 		body.correo, body.telefono);
+	nuevo_profesor.contrasena = body.contrasena;
 
-	Profesor.agregar_profeso(nuevo_profesor, (err, result) =>{
+	Profesor.agregar_profesor(nuevo_profesor, (err, result) =>{
 		if(err){
 			return res.status(400).json(err);
 		}
@@ -33,7 +34,7 @@ app.post('/profesor/eliminar/:rut', (req, res) =>{
 	});
 });
 
-app.post('/alumno/modificar', (req, res) => {
+app.post('/profesor/modificar', (req, res) => {
 	let body = req.body;
 	let profesor = new Profesor(body.rut, body.nombre, body.apellido,
 		body.correo, body.telefono);
@@ -50,13 +51,24 @@ app.post('/alumno/modificar', (req, res) => {
 });
 
 app.get('/profesor/obtener', (req, res) => {
-	Profesor.obtener_profesor((err, profesores) => {
+	Profesor.obtener_profesores((err, profesores) => {
 		if(err){
 			return res.status(400).json(err);
 		}
 
 		return res.json(profesores);
 	});
+});
+
+app.get('/profesor/obtener/:rut', (req, res) => {
+	let rut = req.params.rut;
+
+    Profesor.obtener_profesor(rut, (err, profesor) => {
+    	if(err){
+    		return res.status(400).json(err);
+    	}
+    	return res.json(profesor);
+    })
 });
 
 module.exports = app;

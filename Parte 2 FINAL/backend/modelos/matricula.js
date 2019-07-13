@@ -13,10 +13,9 @@ class Matricula{
 		if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        db.none('CALL inscribir_curso($1, $2, $3)', 
+        db.none('CALL inscribir_curso($1, $2)', 
         	[matricula.ref_alumno,
-        	matricula.ref_instancia_curso,
-        	matricula.situacion])
+        	matricula.ref_instancia_curso])
         .then(function(err, results, fields){
         	return callback(null, true)
     	})
@@ -59,6 +58,21 @@ class Matricula{
         	return callback(err);
         })
 	}
+
+    static calcular_nota_final(data, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        db.none('CALL calcular_nota_final($1, $2)',
+            [data.id_alumno,
+            data.id_instancia_curso])
+        .then(function(results){
+            return callback(null, true);
+        })
+        .catch(function(err){
+            return callback(err);
+        })
+    }
 }
 
 module.exports = Matricula;

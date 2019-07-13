@@ -41,6 +41,23 @@ class Curso{
         })
 	}
 
+    static obtener_curso(codigo, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        db.any('SELECT * FROM curso WHERE codigo = $1', codigo).then(function(results){
+            let cursos = [];
+            for(const curso of results){
+                cursos.push(new Curso(curso.codigo, curso.nombre, curso.carrera, curso.ref_profesor_encargado));
+            }
+
+            return callback(null, cursos[0]);
+        })
+        .catch(function(err){
+            return callback(err);
+        })
+    }
+
 	static modificar_curso(curso, callback){
 		if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');

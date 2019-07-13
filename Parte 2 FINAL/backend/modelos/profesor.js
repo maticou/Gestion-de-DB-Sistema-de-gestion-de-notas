@@ -8,6 +8,7 @@ class Profesor{
 		this.correo = correo;
 		this.telefono = telefono;
 		this.estado = estado;
+        this.contrasena = '';
 	}
 
 	static obtener_profesores(callback){
@@ -44,12 +45,13 @@ class Profesor{
 		if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        db.none('CALL registrar_profesor($1, $2, $3, $4, $5)', 
-        	[alumno.rut,
-        	alumno.nombre,
-        	alumno.apellido,
-        	alumno.correo,
-        	alumno.telefono])
+        db.none('CALL registrar_profesor($1, $2, $3, $4, $5, $6)', 
+        	[profesor.rut,
+        	profesor.nombre,
+        	profesor.apellido,
+        	profesor.correo,
+        	profesor.telefono,
+            profesor.contrasena])
         .then(function(err, results, fields){
         	return callback(null, true)
     	})
@@ -63,11 +65,11 @@ class Profesor{
             throw new Error('There is not a callback function. Please provide them');
         }
         db.none('CALL modificar_profesor($1, $2, $3, $4, $5)',
-        	[alumno.rut, 
-        	alumno.nombre, 
-        	alumno.apellido, 
-        	alumno.correo, 
-        	alumno.telefono])
+        	[profesor.rut, 
+        	profesor.nombre, 
+        	profesor.apellido, 
+        	profesor.correo, 
+        	profesor.telefono])
         .then(function(results){
     		return callback(null, true);
     	})
@@ -75,6 +77,24 @@ class Profesor{
     		return callback(err);
     	})
 	}
+
+    static obtener_profesor(rut, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback funtion. Please provide them');
+        }
+        db.any('SELECT * FROM profesor WHERE rut = $1', rut).then(function(results){
+            let profesores = [];
+            for(const profesor of results){
+                profesores.push(new Profesor( profesor.rut, profesor.nombre, profesor.apellido,
+                    profesor.correo, profesor.telefono, profesor.estado));
+            }
+
+            return callback(null, profesores[0]);
+        })
+        .catch(function(err){
+            return callback(err);
+        })
+    }
 }
 
 module.exports = Profesor;

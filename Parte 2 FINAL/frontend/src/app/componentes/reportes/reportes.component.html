@@ -1,1 +1,397 @@
-<p>reportes works!</p>
+
+<div class="pagina">
+    <h2>Reportes</h2>
+
+    <div class="reporte">
+        <h5>Porcentaje de alumnos que toman cursos</h5>
+        <div class="content">
+            El porcentaje de alumnos que tomaron curso fue de: {{reporte1}}%
+        </div>
+        <div class="content">
+            <button (click)="porcentaje_alumnos_que_toman_cursos()">
+                Calcular
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="reporte">
+        <h5>Alumnos con mejor promedio</h5>
+    
+        <div class="tabla">
+            <table mat-table [dataSource]="datos_reporte2" matSort class="mat-elevation-z8"> 
+                <ng-container matColumnDef="matricula">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Matricula </th>
+                    <td mat-cell *matCellDef="let element"> {{element.matricula_alumno}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_alumno}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="apellido">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido  </th>
+                    <td mat-cell *matCellDef="let element"> {{element.apellido_paterno}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="promedio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Promedio</th>
+                    <td mat-cell *matCellDef="let element"> {{element.promedio_final}} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="col_reporte2"></tr>
+                <tr mat-row *matRowDef="let row; columns: col_reporte2;"></tr>
+            </table>
+        </div>
+
+        <div class="content">
+            <button (click)="alumnos_con_mejor_promedio()">
+                Calcular
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="reporte">
+        <h5>Alumnos con peor promedio</h5>
+
+        <div class="tabla">
+            <table mat-table [dataSource]="datos_reporte3" matSort class="mat-elevation-z8"> 
+                <ng-container matColumnDef="matricula">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Matricula </th>
+                    <td mat-cell *matCellDef="let element"> {{element.matricula_alumno}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_alumno}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="apellido">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido  </th>
+                    <td mat-cell *matCellDef="let element"> {{element.apellido_paterno}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="promedio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Promedio</th>
+                    <td mat-cell *matCellDef="let element"> {{element.promedio_final}} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="col_reporte2"></tr>
+                <tr mat-row *matRowDef="let row; columns: col_reporte2;"></tr>
+            </table>
+        </div>
+
+        <div class="content">
+            <button (click)="alumnos_con_peor_promedio()">
+                Calcular
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="reporte">
+        <h5>Alumnos con mayor cantidad de cursos aprobados</h5>
+
+        <div class="tabla">
+            <table mat-table [dataSource]="datos_reporte4" matSort class="mat-elevation-z8"> 
+                <ng-container matColumnDef="matricula">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Matricula </th>
+                    <td mat-cell *matCellDef="let element"> {{element.matricula_alumno}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_alumno}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="apellido">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido  </th>
+                    <td mat-cell *matCellDef="let element"> {{element.apellido_paterno}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="num_cursos">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cursos Aprobados</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cantidad_cursos_aprobados}} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="col_reporte4"></tr>
+                <tr mat-row *matRowDef="let row; columns: col_reporte4;"></tr>
+            </table>
+        </div>
+
+        <div class="content">
+            <button (click)="alumnos_con_mas_cursos_aprobados()">
+                Calcular
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="reporte">
+        <h5>Alumnos con mas cursos reprobados</h5>
+
+        <div class="tabla">
+            <table mat-table [dataSource]="datos_reporte5" matSort class="mat-elevation-z8"> 
+                <ng-container matColumnDef="matricula">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Matricula </th>
+                    <td mat-cell *matCellDef="let element"> {{element.matricula_alumno}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_alumno}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="apellido">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido  </th>
+                    <td mat-cell *matCellDef="let element"> {{element.apellido_paterno}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="num_cursos">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cursos Reprobados</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cantidad_cursos_reprobados}} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="col_reporte4"></tr>
+                <tr mat-row *matRowDef="let row; columns: col_reporte4;"></tr>
+            </table>
+        </div>
+
+        <div class="content">
+            <button (click)="alumnos_con_mas_cursos_reprobados()">
+                Calcular
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="reporte">
+        <h5>Numero de cursos dictados por profesor</h5>
+
+        <div>
+            <div class="tabla">
+                <table mat-table [dataSource]="datos_reporte6" matSort class="mat-elevation-z8"> 
+                    <ng-container matColumnDef="rut">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rut </th>
+                        <td mat-cell *matCellDef="let element"> {{element.rut}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre_profesor}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="apellido">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido  </th>
+                        <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="num_cursos">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cursos Dictados</th>
+                        <td mat-cell *matCellDef="let element"> {{element.cantidad_cursos_dictados}} </td>
+                    </ng-container>
+            
+                    <tr mat-header-row *matHeaderRowDef="col_reporte6"></tr>
+                    <tr mat-row *matRowDef="let row; columns: col_reporte6;"></tr>
+                </table>
+            </div>
+
+            <div class="content">
+                <button (click)="numero_cursos_dictados_por_profesor()">
+                    Calcular
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="reporte">
+        <h5> Numero de alumnos aprobados por profesor</h5>
+
+        <div class="tabla">
+            <table mat-table [dataSource]="datos_reporte7" matSort class="mat-elevation-z8"> 
+                <ng-container matColumnDef="rut">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Rut </th>
+                    <td mat-cell *matCellDef="let element"> {{element.rut}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_profesor}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="apellido">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido  </th>
+                    <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="num_alumnos">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Alumnos Aprobados</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cantidad_alumnos_aprobados}} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="col_reporte7"></tr>
+                <tr mat-row *matRowDef="let row; columns: col_reporte7;"></tr>
+            </table>
+        </div>
+
+        <div class="content">
+            <button (click)="profesores_con_numero_de_aprobados()">
+                Calcular
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="reporte">
+        <h5> Numero de alumnos reprobados por profesor</h5>
+
+        <div class="tabla">
+            <table mat-table [dataSource]="datos_reporte8" matSort class="mat-elevation-z8"> 
+                <ng-container matColumnDef="rut">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Rut </th>
+                    <td mat-cell *matCellDef="let element"> {{element.rut}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_profesor}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="apellido">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido  </th>
+                    <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="num_alumnos">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Alumnos Reprobados</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cantidad_alumnos_reprobados}} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="col_reporte7"></tr>
+                <tr mat-row *matRowDef="let row; columns: col_reporte7;"></tr>
+            </table>
+        </div>
+
+        <div class="content">
+            <button (click)="profesores_con_numero_de_reprobados()">
+                Calcular
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="reporte">
+        <h5> Porcentaje de alumnos reprobados por curso</h5>
+
+        <div class="tabla">
+            <table mat-table [dataSource]="datos_reporte8" matSort class="mat-elevation-z8"> 
+                <ng-container matColumnDef="codigo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigo_del_curso}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_del_curso}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="porcentaje_alumnos">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Porcentaje Alumnos  </th>
+                    <td mat-cell *matCellDef="let element"> {{element.porcentaje_alumnos_reprobados}} </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="col_reporte9"></tr>
+                <tr mat-row *matRowDef="let row; columns: col_reporte9;"></tr>
+            </table>
+        </div>
+
+        <div class="content">
+            <button (click)="cursos_con_porcentaje_de_reprobados()">
+                Calcular
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="reporte">
+        <h5> Porcentaje de aprobados y reprobados de una sección</h5>
+        <div class="content">
+            <form [formGroup]="form1">
+                <div class="div-formulario">
+                    <div class="formulario">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Ingrese el código de la sección</mat-label>
+                            <input matInput placeholder="" formControlName="id_instancia" maxlength="10"/>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="boton">
+                        <button mat-raised-button (click)="calcularReporte10()">Calcular</button>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+
+        <div class="content">
+            {{reporte10}}
+        </div>
+    </div>
+
+    <hr>
+    <div class="reporte">
+        <h5> Promedio de una sección</h5>
+        <div class="content">
+            <form [formGroup]="form2">
+                <div class="div-formulario">
+                    <div class="formulario">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Ingrese el código de la sección</mat-label>
+                            <input matInput placeholder="" formControlName="id_instancia" maxlength="10"/>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="boton">
+                        <button mat-raised-button (click)="calcularReporte11()">Calcular</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="content">
+                El promedio de la sección es : {{reporte11}}
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

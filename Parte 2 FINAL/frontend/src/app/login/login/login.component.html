@@ -1,1 +1,57 @@
-<p>login works!</p>
+
+<div class="login">
+    <h2>Iniciar Sesion</h2>
+</div>
+
+<br>
+<div class="login">
+    <div class="formulario_alumno">
+        <h5>Ingresar como alumno</h5>
+
+        <div class="">
+            <form [formGroup]="alumno">
+                <div>
+                    <mat-form-field appearance="standard">
+                        <mat-label>Matrícula</mat-label>
+                        <input matInput placeholder="" formControlName="matricula" maxlength="30"/>
+                    </mat-form-field>
+                </div>
+            
+                <div>
+                    <mat-form-field appearance="standard">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput placeholder="" formControlName="contrasena" maxlength="30"/>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+        
+        <div class="boton">
+            <button mat-raised-button (click)="ingresar_como_alumno()">Ingresar</button>
+        </div>
+    </div>
+
+    <div class="formulario_profesor">
+        <h5>Ingresar como profesor</h5>
+
+        <form [formGroup]="profesor">
+            <div>
+                <mat-form-field appearance="standard">
+                    <mat-label>Rut</mat-label>
+                    <input matInput placeholder="" formControlName="rut" maxlength="30"/>
+                </mat-form-field>
+            </div>
+    
+            <div>
+                <mat-form-field appearance="standard">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput placeholder="" formControlName="contrasena" maxlength="30"/>
+                </mat-form-field>
+            </div>
+        </form>
+
+        <div class="boton">
+            <button mat-raised-button (click)="ingresar_como_profesor()">Ingresar</button>
+        </div>
+    </div>
+</div>

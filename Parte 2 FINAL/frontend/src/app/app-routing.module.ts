@@ -11,8 +11,10 @@ import { EvaluacionesComponent } from './vista-alumno/evaluaciones/evaluaciones.
 import { HistorialCursosComponent } from './vista-alumno/historial-cursos/historial-cursos.component';
 import { CursosProfesorComponent } from './vista-profesor/cursos-profesor/cursos-profesor.component';
 import { ReportesComponent } from './componentes/reportes/reportes.component';
+import { LoginComponent } from './login/login/login.component';
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   { path: 'admin/alumno', component: MostrarAlumnoComponent },
   { path: 'admin/profesor', component: ListaProfesorComponent },
   { path: 'admin/curso', component: ListaCursoComponent },

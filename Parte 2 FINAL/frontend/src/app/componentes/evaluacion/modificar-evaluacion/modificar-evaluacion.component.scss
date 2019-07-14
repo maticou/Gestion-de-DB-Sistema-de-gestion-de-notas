@@ -24,5 +24,9 @@
 .position-form{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
+}
+
+.opcion{
+  padding-right: 15px;
 }

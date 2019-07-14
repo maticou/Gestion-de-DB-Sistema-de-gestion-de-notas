@@ -18,25 +18,49 @@
         </div>
 
         <div class="container">
-            <mat-form-field appearance="standard">
                 <mat-label>Exigible</mat-label>
-                <input matInput placeholder="" formControlName="exigible" maxlength="1"/>
-            </mat-form-field>
-        </div>
-
-        <div class="container">
-            <mat-form-field appearance="standard">
+                <mat-radio-group formControlName="exigible" class="position-form">
+                    <div class="opcion">
+                        <mat-radio-button value="1">Si</mat-radio-button>
+                    </div>
+                    <div class="opcion">
+                        <mat-radio-button value="0">No</mat-radio-button>
+                    </div>
+                </mat-radio-group>
+            </div>
+    
+            <div class="container">
                 <mat-label>Área</mat-label>
-                <input matInput placeholder="" formControlName="area" maxlength="30"/>
-            </mat-form-field>
-        </div>
-
-        <div class="container">
-            <mat-form-field appearance="standard">
-                <mat-label>Tipo</mat-label>
-                <input matInput placeholder="" formControlName="tipo" maxlength="30"/>
-            </mat-form-field>
-        </div>
+                <mat-radio-group formControlName="area" class="position-form">
+                    <div class="opcion">
+                        <mat-radio-button value="UNIDAD_1">Unidad 1</mat-radio-button>
+                    </div>
+                    <div class="opcion">
+                        <mat-radio-button value="UNIDAD_2">Unidad 2</mat-radio-button>
+                    </div>
+                    <div class="opcion">
+                        <mat-radio-button value="UNIDAD_3">Unidad 3</mat-radio-button>
+                    </div>
+                </mat-radio-group>
+            </div>
+    
+            <div class="container">
+                <mat-label>Tipo de Evaluación</mat-label>
+                <mat-radio-group formControlName="tipo" class="position-form">
+                    <div class="opcion">
+                        <mat-radio-button value="PRUEBA">Prueba</mat-radio-button>
+                    </div>
+                    <div class="opcion">
+                        <mat-radio-button value="LABORATORIO">Laboratorio</mat-radio-button>
+                    </div>
+                    <div class="opcion">
+                        <mat-radio-button value="INFORME">Informe</mat-radio-button>
+                    </div>
+                    <div class="opcion">
+                        <mat-radio-button value="TAREA">Tarea</mat-radio-button>
+                    </div>
+                </mat-radio-group>
+            </div>
 
         <div class="container">
             <mat-form-field appearance="standard">

@@ -1,6 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
+    padding-bottom: 10px;
   }
   
   .container > * {
@@ -21,8 +22,12 @@
   padding-left: 15px;
 }
 
+.opcion{
+  padding-right: 15px;
+}
+
 .position-form{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
 }

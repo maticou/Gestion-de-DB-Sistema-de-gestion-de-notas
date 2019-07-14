@@ -42,6 +42,7 @@ export class ListaEvaluacionComponent implements OnInit {
   agregarEvaluacion(){
     const dialogRef = this.dialog.open(AgregarEvaluacionComponent, {
       width: '500px',
+      data: this.id_curso,
       disableClose: true,
       autoFocus: true
     });

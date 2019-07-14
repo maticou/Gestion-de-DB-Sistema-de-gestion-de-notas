@@ -25,7 +25,7 @@ export class AgregarEvaluacionComponent implements OnInit {
       tipo: new FormControl(""),
       prorroga: new FormControl(""),
       ref_profesor: new FormControl(""),
-      ref_instancia_curso: new FormControl("")
+      ref_instancia_curso: new FormControl(this.data)
     });
   }
 

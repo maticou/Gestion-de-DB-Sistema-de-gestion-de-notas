@@ -8,5 +8,6 @@ app.use(require('./curso'));
 app.use(require('./evaluacion'));
 app.use(require('./matricula'));
 app.use(require('./reportes'));
+app.use(require('./login'));
 
 module.exports = app;

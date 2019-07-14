@@ -52,9 +52,9 @@ BEGIN
 	WHERE matricula.ref_instancia_curso = _id_instancia
 	AND situacion='REPROBADO' INTO alumnos_reprobados;
 	IF ((alumnos_aprobados+alumnos_reprobados) > 0) THEN		
-		SELECT INTO rec
+		SELECT 
 		((alumnos_aprobados*100)/(alumnos_aprobados+alumnos_reprobados)) AS alumnos_aprobados,
-		((alumnos_reprobados*100)/(alumnos_aprobados+alumnos_reprobados)) AS alumnos_reprobados;
+		((alumnos_reprobados*100)/(alumnos_aprobados+alumnos_reprobados)) AS alumnos_reprobados INTO rec;
 
 		RAISE NOTICE 'El porcentaje de alumnos aprobados en el curso % sección % es % %%', nombre_curso, seccion_curso, ((alumnos_aprobados*100)/(alumnos_aprobados+alumnos_reprobados));
 		RAISE NOTICE 'El porcentaje de alumnos reprobados en el curso % sección % es % %%', nombre_curso, seccion_curso, ((alumnos_reprobados*100)/(alumnos_aprobados+alumnos_reprobados));
